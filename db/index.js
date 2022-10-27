@@ -13,6 +13,10 @@ const process = require("process");
 // };
 
 let db;
+console.log("process.env.NODE_ENV");
+console.log(process.env.NODE_ENV);
+console.log("process.env.NODE_ENV");
+
 if (process.env.NODE_ENV === "production") {
   db = new Sequelize(DB.DB_URL, {
     logging: false,
