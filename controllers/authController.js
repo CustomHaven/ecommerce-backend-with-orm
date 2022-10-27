@@ -24,18 +24,11 @@ module.exports = {
         try {
 
             req.body.password = String(req.body.password);
-            console.log(req.body.password);
 
             // db query trying to force a sinon.stub to resolve a fake value. But code wont pass here hence 500 error
             const userQuery = await authService.findByEmail(req.body.email);
-            console.log(userQuery);
-            console.log(userQuery.password);
-            console.log(req.body.password);
 
             const compare = await bcrypt.compare(req.body.password, userQuery.password);
-            console.log("compare");
-            console.log(compare);
-            console.log("compare");
 
             if (!compare) { throw createError(401, 'Incorrect password.'); }
 

@@ -4,6 +4,7 @@ const loaders = require('./loaders');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const allModels = require('./models');
+const { HOST } = require("./config");
 // Crypto we are using to generate the secret string to use for JWT
 // const crypto = require('crypto').randomBytes(64).toString('hex');
 
@@ -25,7 +26,7 @@ async function startServer () {
       });//
     } else {
       app.listen(PORT, () => {
-        loggers.info(`Server is listening on port #${PORT}`);
+        loggers.info(`Server is listening on port ${HOST}#${PORT}`);
       });//
     }
   }

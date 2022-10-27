@@ -13,5 +13,6 @@ module.exports = {
   PAYMENT: {
     STRIPE_SECRET: process.env.STRIPE_SKTEST,
     STRIPE_PUBLIC: process.env.STRIPE_PKTEST
-  }
+  },
+  HOST: process.env.HOST_URL
 }

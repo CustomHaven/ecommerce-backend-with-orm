@@ -18,7 +18,7 @@ exports.newCompleteOrder = async (req, res, next) => {
             shipping_status: "pending", // Maybe we send in from the req.body just these two
             tracking_id: "not available" // Maybe we send in from the req.body just these two
         };
-        // console.log(cart_id)
+
         const completeOrder = await orderService.fullOrder(user_id, cart_id, data, res.locals.userIdRole);
         res.status(201).send(completeOrder);
     } catch (error) {

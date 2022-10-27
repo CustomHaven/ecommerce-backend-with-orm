@@ -25,13 +25,6 @@ module.exports = (sequelize, DataTypes, literal) => {
         price: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
-            // set(value) {
-            //     console.log("value");
-            //     console.log(value);
-            //     console.log("value");
-
-            //     return parseFloat(value.toFixed(2))
-            // }
         },
         quantity: {
             type: DataTypes.INTEGER,

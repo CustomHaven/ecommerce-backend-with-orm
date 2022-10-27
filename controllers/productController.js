@@ -74,8 +74,6 @@ exports.allProductsAndImages = async (req, res, next) => {
 
 exports.newProductsAndImages = async (req, res, next) => {
     try {
-        console.log("are we here?")
-        // const fake = "prod-18";
         const product = await productService.addProductImages(req.body.product, req.body.product_images);
 
         res.status(201).send(product);

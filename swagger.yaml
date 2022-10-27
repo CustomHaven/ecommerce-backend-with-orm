@@ -10,6 +10,8 @@ info:
     name: MIT
     url: https://choosealicense.com/licenses/mit/
 servers:
+  - url: https://api-custom-ecommerce-pern.onrender.com/
+    variables: {}
   - url: http://localhost:5000/
     variables: {}
 paths:

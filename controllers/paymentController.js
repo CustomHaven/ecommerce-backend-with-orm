@@ -59,9 +59,9 @@ exports.masterPay = async (req, res, next) => {
         
         const user = await PaymentService.findUserContactDetails(req.params.user_id, res.locals.userIdRole);
         const userName = user.first_name + " " + user.last_name;
-        console.log(userName);
+        // console.log(userName);
         // console.log(user)
-        console.log(user.ContactDetail.address_line1);
+        // console.log(user.ContactDetail.address_line1);
         
         // creating customer in stripe
         const customer = await stripe.customers.create({

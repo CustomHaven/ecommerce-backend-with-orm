@@ -142,8 +142,6 @@ module.exports = class OrderService {
                 orderItems.push(orderItem);
             }
 
-
-            // console.log(cart.CartLists)
             return await this.findOrder(order.id);
         } catch (error) {
             throw error;
