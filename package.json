@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "engines": {
+    "node": "16.15.0",
+    "npm": "8.19.2"
+  },
   "scripts": {
     "test:jest:controller": "cross-env TEST=test jest --watch --detectOpenHandles --testMatch --verbose --rootDir=test",
     "test": "cross-env TEST=test mocha specs/**/*.js --watch --timeout 0",
