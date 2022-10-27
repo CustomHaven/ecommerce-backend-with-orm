@@ -1,0 +1,9 @@
+/node_modules
+.env
+mockfile.txt
+mockdb.js
+mockdb.sql
+plan.txt
+backendPlan.txt
+seed_database.js
+seed_database.sql
