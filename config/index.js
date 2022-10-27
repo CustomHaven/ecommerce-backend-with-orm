@@ -6,7 +6,8 @@ module.exports = {
     PASS: process.env.DB_PASS,
     HOST: process.env.DB_HOST,
     PORT: process.env.DB_PORT,
-    DB: process.env.TEST === "test" ? process.env.DB_DB_TESTING : process.env.DB_DB
+    DB: process.env.TEST === "test" ? process.env.DB_DB_TESTING : process.env.DB_DB,
+    DB_URL: process.env.DB_URL_BIT
   },
   TOKEN: process.env.TOKEN_SECRET,
   PAYMENT: {

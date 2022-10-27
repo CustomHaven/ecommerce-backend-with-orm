@@ -14,7 +14,7 @@ const process = require("process");
 
 let db;
 if (process.env.NODE_ENV === "production") {
-  db = new Sequelize(process.env.DB_URL_BIT, {
+  db = new Sequelize(DB.DB_URL, {
     logging: false,
     dialectOptions: {
       ssl: {
