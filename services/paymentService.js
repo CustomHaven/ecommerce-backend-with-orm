@@ -17,7 +17,12 @@ module.exports = class PaymentService {
             throw error;
         }
     }
-
+    /**
+     * 
+     * @param {req.param.id} id 
+     * @param {res.locals.userIdRole} userIdRole 
+     * @returns user || error (401||404)
+     */
     static async findUserContactDetails(id, userIdRole) {
         try {
             const user = await User.findOne({

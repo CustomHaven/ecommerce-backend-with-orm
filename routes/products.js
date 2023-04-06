@@ -1,21 +1,66 @@
 const productController = require('../controllers/productController');
 const router = require('express').Router();
 const { isAdmin } = require("../middleware/cookieJWTAuth");
-
+//
 module.exports = (app) => {
     app.use('/api/v2/products', router); 
     
+    
     router.get('/', productController.findAll);
     router.post("/", isAdmin, productController.newProduct);
+
+    router.get("/all-products-with-all-images", productController.findAllProductsWithAllImages); // Swagger!
+    router.get("/single-product-and-all-images/:id", productController.findSingleProductWithAllImages); // Swagger!
+    router.post("/add-product-and-images-together", isAdmin, productController.newProductWithAllImages); // Swagger!
+
+
+    router.get("/all/products", productController.allProductsAndImages);
+    router.post("/product-with-images", isAdmin, productController.newProductsAndImages);
+
     router.get('/:id', productController.findAProduct);
     router.put('/:id', productController.updateProduct);
     router.delete('/:id', isAdmin, productController.removeProduct);
 
-    router.get("/all/products", productController.allProductsAndImages);
-    router.post("/product-with-images", isAdmin, productController.newProductsAndImages);
     
     return router;
 }
+
+/*
+
+{
+    "product": {
+        "source": "http://www.google.com",
+        "product_name": "snowboard",
+        "type": "skying",
+        "description": "bla bla lorem ipsum",
+        "price": 200.40,
+        "quantity": 800
+    },
+    "banner_image": {
+        "banner_image_name": "snowboard 07",
+        "banner_image_data": "https://www.burton.com/static/product/W23/10689109000_1.png"
+    },
+    "all_images": [{
+        "image_name": "snowboard 1770",
+        "image_data": "https://www.burton.com/static/product/W23/106891_3ML.png"
+    },
+    {
+
+        "image_name": "snowboard 1880",
+        "image_data": "https://www.burton.com/static/product/W23/106891_3ML.png"
+    },
+    {
+
+        "image_name": "snowboard 1990",
+        "image_data": "https://www.burton.com/static/product/W23/106891_3ML.png"
+
+    }]
+
+}
+*/
+
+
+
 
 /*
 {

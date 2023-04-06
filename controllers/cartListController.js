@@ -29,6 +29,15 @@ exports.brandNewCartList = async (req, res, next) => {
     }
 }
 
+exports.makeNewCartItem = async (req, res, next) => {
+    try {
+        const cart = await cartListService.newCartItem(Number(req.params.cart_id), req.body);
+        res.status(201).send(cart);
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.addToCartList = async (req, res, next) => {
     try {
         const cart = await cartListService.addCartList(req.body, Number(req.params.cart_id));

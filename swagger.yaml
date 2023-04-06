@@ -15,7 +15,7 @@ servers:
   - url: http://localhost:5000/
     variables: {}
 paths:
-  /auth/login:
+  /api/v2/auth/login:
     summary: Login
     description: Login and get your cookie
     post:
@@ -61,7 +61,7 @@ paths:
           description: Fail
       tags:
         - Login
-  /auth/logout:
+  /api/v2/auth/logout:
     summary: Logout
     description: Logout and remove cookie
     get:
@@ -100,6 +100,109 @@ paths:
           description: Fail
       tags:
         - Logout
+  /api/v2/auth/refresh:
+    summary: Refresh Token
+    description: Re-set cookie with the refresh token
+    post:
+      summary: Re-set cookie with the refresh token
+      description: Return an authenticated cookie of a refresh token
+      operationId: refresh_token_set_up
+      requestBody:
+        description: Refresh the token
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "cookie_token": "refresh+token" }'
+          description: Success
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: refresh_token=abcde12345; Path=/; HttpOnly
+        '401':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Unathorized"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Refresh Token
+  /api/v2/users/register/guest:
+    summary: Register guest
+    description: Register a new guest account
+    post:
+      summary: Registering a guest accont
+      description: Registering a guest accont no sign up needed
+      operationId: guest_account
+      requestBody:
+        description: Save guest account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Users'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "user 4", "first_name": "john", "last_name": "snow", "email": "johnsnow@example.com", "password": "johnsnow", "created": "03:03:2013 03:33", "modified": "01:05:2022 09:21" }'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                    "message": "User not found"
+                    }
+          description: Fail
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                    "message": "Failed to create guest account"
+                    }
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Users
   /api/v2/users/register/user:
     summary: Register user
     description: Register a new user account
@@ -970,6 +1073,486 @@ paths:
           description: Fail
       tags:
         - Products
+  /api/v2/products/all-products-with-all-images:
+    summary: A product's all images
+    description: List all Display Images that belong to a particular product
+    get:
+      summary: All products with all Images best route
+      description: Get all products as long with all product's display and all images
+      operationId: all_product_display_and_all_images
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '[{ "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021", "product_banner_images": { "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}, "product_images":[{"id":1,"product_id":"prod 1","image_name":"Hardcover","image_data":"http://dummyimage.com/122x100.png/ff4444/ffffff","created":"14/10/2021","modified":"29/10/2021"},{"id":2,"product_id":"prod 1","image_name":"Rendezvous","image_data":"http://dummyimage.com/197x100.png/5fa2dd/ffffff","created":"21/10/2021","modified":"19/09/2021"},{"id":3,"product_id":"prod 1","image_name":"King ofCalifornia","image_data":"http://dummyimage.com/187x100.png/5fa2dd/ffffff","created":"29/08/2021","modified":"27/09/2021"}]},{ "id": "prod 2", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021", "product_banner_images": { "id":2,"product_id": "prod 2", "banner_image_name": "Other SideofBollywood","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}, "product_images":[{"id":4,"product_id":"prod 2","image_name":"Hardcover","image_data":"http://dummyimage.com/122x100.png/ff4444/ffffff","created":"14/10/2021","modified":"29/10/2021"},{"id":5,"product_id":"prod 2","image_name":"Rendezvous","image_data":"http://dummyimage.com/197x100.png/5fa2dd/ffffff","created":"21/10/2021","modified":"19/09/2021"},{"id":6,"product_id":"prod 2","image_name":"King ofCalifornia","image_data":"http://dummyimage.com/187x100.png/5fa2dd/ffffff","created":"29/08/2021","modified":"27/09/2021"}]},{ "id": "prod 3", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021", "product_banner_images": { "id":3,"product_id": "prod 3", "banner_image_name": "Other SideofBollywood","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}, "product_images":[{"id":7,"product_id":"prod 3","image_name":"Hardcover","image_data":"http://dummyimage.com/122x100.png/ff4444/ffffff","created":"14/10/2021","modified":"29/10/2021"},{"id":8,"product_id":"prod 3","image_name":"Rendezvous","image_data":"http://dummyimage.com/197x100.png/5fa2dd/ffffff","created":"21/10/2021","modified":"19/09/2021"},{"id":9,"product_id":"prod 3","image_name":"King ofCalifornia","image_data":"http://dummyimage.com/187x100.png/5fa2dd/ffffff","created":"29/08/2021","modified":"27/09/2021"}]}]'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Invalid path"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Products
+  /api/v2/products/single-product-and-all-images/{id}:
+    summary: A single product's all images
+    description: List all Display and all other Images that belong to a particular product
+    get:
+      summary: A single product with all Images best route
+      description: Get single product along with all product's display and all images
+      operationId: single_product_display_and_all_images
+      parameters:
+        - name: id
+          in: path
+          description: The image id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021", "product_banner_images": { "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}, "product_images":[{"id":1,"product_id":"prod 1","image_name":"Hardcover","image_data":"http://dummyimage.com/122x100.png/ff4444/ffffff","created":"14/10/2021","modified":"29/10/2021"},{"id":2,"product_id":"prod 1","image_name":"Rendezvous","image_data":"http://dummyimage.com/197x100.png/5fa2dd/ffffff","created":"21/10/2021","modified":"19/09/2021"},{"id":3,"product_id":"prod 1","image_name":"King ofCalifornia","image_data":"http://dummyimage.com/187x100.png/5fa2dd/ffffff","created":"29/08/2021","modified":"27/09/2021"}]}'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "No product found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Products
+  /api/v2/products/add-product-and-images-together:
+    summary: Add a new product's along with all images
+    description: Adds a new product along with all Display and all other Images that belong to a particular product
+    post:
+      security:
+        - cookieAuth: []
+      summary: Add a single product with all Images best route
+      description: Add a single new product along with all product's display and all images
+      operationId: add_product_display_and_all_images
+      requestBody:
+        description: Body inputs for route
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-And-Display-With-All-Images'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021", "product_banner_images": { "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}, "product_images":[{"id":1,"product_id":"prod 1","image_name":"Hardcover","image_data":"http://dummyimage.com/122x100.png/ff4444/ffffff","created":"14/10/2021","modified":"29/10/2021"},{"id":2,"product_id":"prod 1","image_name":"Rendezvous","image_data":"http://dummyimage.com/197x100.png/5fa2dd/ffffff","created":"21/10/2021","modified":"19/09/2021"},{"id":3,"product_id":"prod 1","image_name":"King ofCalifornia","image_data":"http://dummyimage.com/187x100.png/5fa2dd/ffffff","created":"29/08/2021","modified":"27/09/2021"}]}'
+          description: Success
+        '401':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Unathorized"}'
+          description: Fail
+        '403':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Forbidden"}'
+          description: Fail
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "No product found"}'
+          description: Fail
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Failed to make new product"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Products
+  /api/v2/product-banner-images:
+    summary: A product's all images
+    description: List all Display Images that belong to a particular product
+    get:
+      summary: A product's all display images
+      description: The first white background display image belonging to a particular product
+      operationId: product_all_display_images
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '[{"product": { "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021","product_images": [{ "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}]}}, {"product": { "id": "prod 2", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021", "product_images": [{ "id":2, "product_id": "prod 2", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}]}},{"product": { "id": "prod 3", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021","product_images": [{ "id":3,"product_id": "prod 3", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}]}}]'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Invalid path"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
+  /api/v2/product-banner-images/image/{id}:
+    summary: A single display image
+    description: Get single display Image that belong to a particular product
+    get:
+      summary: A product's all display images
+      description: The first white background display image belonging to a particular product
+      operationId: get_single_display_image
+      parameters:
+        - name: id
+          in: path
+          description: The image id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{"product_images": { "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}}'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Image not found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
+    put:
+      security:
+        - cookieAuth: []
+      summary: Updates an image
+      description: Updates an image or the name of an image
+      operationId: update_single_display_image
+      parameters:
+        - name: id
+          in: path
+          description: The image id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Body inputs for route
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Display-Image'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{"product_images": { "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}}'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Image not found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
+    delete:
+      security:
+        - cookieAuth: []
+      summary: Delete an image
+      description: Delete a products display image only can be done my an administrator
+      operationId: delete_single_display_image
+      parameters:
+        - name: id
+          in: path
+          description: The image id
+          required: true
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Image not found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
+  /api/v2/product-banner-images/product/{product_id}:
+    summary: A product and the display image
+    description: Single product and its display image that belong to the product
+    get:
+      summary: A product and its display image
+      description: The first white background display image belonging to a particular product
+      operationId: product_and_its_display_images
+      parameters:
+        - name: product_id
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{"product": { "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021","product_images": [{ "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}]}}'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Invalid path"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
+    post:
+      security:
+        - cookieAuth: []
+      summary: A new product display image
+      description: Make the first white background display image belonging to a particular product
+      operationId: new_product_display_image
+      parameters:
+        - name: product_id
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Body inputs for route
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Display-Image'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{"product": { "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021","product_images": [{ "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}]}}'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "No product found"}'
+          description: Fail
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Failed to save product image"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image        
+    put:
+      security:
+        - cookieAuth: []
+      summary: Update a product's display image
+      description: Update display image or update it's name
+      operationId: update_product_display_image
+      parameters:
+        - name: product_id
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Body inputs for route
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product-Display-Image'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{"product": { "id": "prod 1", "source": "https://wikia.com/velit/nec/nisi.xml", "product_name": "Wine - Masi Valpolocell", "type": "Beans - Yellow", "description": "Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst.", "price": "$8.33", "quantity": 43, "created": "10/11/2021", "modified": "09/12/2021","product_images": [{ "id":1,"product_id": "prod 1", "banner_image_name": "Other SideofBollywood, The","banner_image_data":"http://dummyimage.com/151x100.png/5fa2dd/ffffff","created":"25/08/2021", "modified": "30/08/2021"}]}}'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "No product or image found"}'
+          description: Fail
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Failed to update"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
+    delete:
+      security:
+        - cookieAuth: []
+      summary: Delete a product's display image
+      description: Delete the display image belonging to a particular product
+      operationId: delete_products_display_image
+      parameters:
+        - name: product_id
+          in: path
+          description: The product id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Product and product image not found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Product Display Image
   /api/v2/product-images/{product_id}:
     summary: A product's all images
     description: List all Images that belong to a particular product
@@ -1256,7 +1839,7 @@ paths:
           description: Fail
       tags:
         - Cart
-  /api/v2/carts/cart/user_id:
+  /api/v2/carts/cart:
     summary: Open a new cart
     description: This route makes a new cart
     post:
@@ -1270,9 +1853,15 @@ paths:
           required: false
           schema:
             type: string
+        - name: abandonded
+          in: query
+          description: Abandonded provide a boolean true or false
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Create a cart
-        required: true
+        required: false
         content:
           application/json:
             schema:
@@ -1285,6 +1874,20 @@ paths:
                 success:
                   value: '{ "id": 6, "user_id": "user 4", "abandoned": false, "created": "20-12-2021", "modified": "12-03-2022" }'
           description: Success
+        '400':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Bad request"}'
+          description: Fail
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Not found"}'
+          description: Fail
         '409':
           content:
             application/json:
@@ -1619,6 +2222,61 @@ paths:
           description: Fail
       tags:
         - Cart List
+  /api/v2/cart-list/cart/brand-new/cart-item/{cart_id}:
+    summary: Make a cart item
+    description: Build a cart item from the cart id
+    post:
+      summary: Add item to cart
+      description: Add an item to cart based on the cart id
+      operationId: save_single_cart_item_to_corresponding_cart_id
+      parameters:
+        - name: cart_id
+          in: path
+          description: The id of the cart
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Save a cart item to the cart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart-List'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": 3, "user_id": "user-2", "abandoned": true, "created": "string", "modified": "string", "CartList": [{ "id": 11, "product_id": 3, "cart_id": 4, "quantity": 3, "created": "04-02-2022", "modified": "07-04-2022" }] }'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Not found"}'
+          description: Fail
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Conflict"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Cart List
   /api/v2/cart-list/cart/brand-new:
     summary: Make cart and a cart item simultaneously
     description: Build a cart and an item with the cart simultaneously
@@ -1641,6 +2299,13 @@ paths:
                 success:
                   value: '{ "id": 3, "user_id": "user-2", "abandoned": true, "created": "string", "modified": "string", "CartList": [{ "id": 11, "product_id": 3, "cart_id": 4, "quantity": 3, "created": "04-02-2022", "modified": "07-04-2022" }] }'
           description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Not found"}'
+          description: Fail
         '409':
           content:
             application/json:
@@ -1682,6 +2347,13 @@ paths:
                 success:
                   value: '{ "id": 10, "product_id": 10, "cart_id": 4, "quantity": 3, "created": "09-01-2022", "modified": "09-03-2022" }'
           description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Not found"}'
+          description: Fail
         '409':
           content:
             application/json:
@@ -2447,14 +3119,19 @@ components:
       properties:
         id:
           type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
+        is_guest:
+          type: boolean
+          default: false
+        is_admin:
+          type: boolean
+          default: false
         email:
           type: string
         password:
           type: string
+        email_campaign:
+          type: boolean
+          default: false
         created:
           type: string
         modified:
@@ -2468,6 +3145,10 @@ components:
           type: number
         user_id:
           type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
         address_line1:
           type: string
         address_line2:
@@ -2476,6 +3157,8 @@ components:
           type: string
         country:
           type: string
+        phone_number:
+          type: number
         created:
           type: string
         modified:
@@ -2505,6 +3188,23 @@ components:
           type: string
       xml:
         name: Products
+    Product-Display-Image:
+      type: object
+      properties:
+        id:
+          type: number
+        product_id:
+          type: string
+        banner_image_name:
+          type: string
+        banner_image_data:
+          type: string
+        created:
+          type: string
+        modified:
+          type: string
+      xml:
+        name: Product-Images
     Product-Image:
       type: object
       properties:
@@ -2533,6 +3233,19 @@ components:
             $ref: '#/components/schemas/Product-Image'
       xml:
         name: Product-And-Images-Completed
+    Product-And-Display-With-All-Images:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/Products'
+        banner_image:
+          $ref: '#/components/schemas/Product-Display-Image'
+        all_images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product-Image'
+      xml:
+        name: Product-And-Display-With-All-Images
     Cart:
       type: object
       properties:

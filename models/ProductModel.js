@@ -81,11 +81,16 @@ module.exports = (sequelize, DataTypes, literal) => {
     //     }
     // };
     Product.associate = models => {
+        Product.hasOne(models.ProductBannerImage, {
+            foreignKey: "product_id"
+        });
+
         for (const model of arrayModels) {
             Product.hasMany(models[model], {
                 foreignKey: "product_id", // do cascade in belongTo
             });
         }
+
     };
 
     return Product;

@@ -1,12 +1,27 @@
+const { Buffer, Blob } = require("buffer");
 const Models = require('../models');
-const { Product, ProductImage } = Models;
+const { Product, ProductBannerImage, ProductImage } = Models;
 const createError = require("http-errors");
+
+
 
 module.exports = class ProductService {
 
+    static base64(buffer) {
+        const buff = Buffer.from(buffer, "base64"); // .toString("utf8"); // actual web url returned
+        buffer.toString("utf8");
+        const blob = new Blob([buff], { type: "image/webp" }); //  Promise { Blob { size: 170, type: '' } },  Promise { Blob { size: 167, type: 'image/webp' } },
+
+        // const file = new File([blob], "img.webp");
+
+        const based64 = btoa(String.fromCharCode.apply(null, blob)); // Promise { '' },
+        // return based64;
+        return buff;
+    }
+
     async findAllProducts() {
         try {
-        const allProducts = await Product.findAll();
+        const allProducts = await Product.findAll({attributes: {exclude: ["created_at", "updated_at"]}});
         if (allProducts) {
             return allProducts
         }
@@ -18,7 +33,7 @@ module.exports = class ProductService {
 
     async findOneProduct(id) {
         try {
-            const product = await Product.findByPk(id);
+            const product = await Product.findByPk(id, { attributes: {exclude: ["created_at", "updated_at"]} });
             if (!product) {
                 throw createError(404, "No product detail");
             }
@@ -70,8 +85,10 @@ module.exports = class ProductService {
     async getAllProductsAndImages() {
         try {
             const products = await Product.findAll({
+                attributes: {exclude: ["created_at", "updated_at"]},
                 include: {
-                    model: ProductImage
+                    model: ProductImage,
+                    attributes: {exclude: ["created_at", "updated_at"]}
                 }
             });
             if (products) {
@@ -203,6 +220,204 @@ module.exports = class ProductService {
                 throw createError(404, 'Invalid ID no image found');
             }
             return { message: 'Successfully removed the image' }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // //////////////////////////////////////////////// ProductBannerImage //////////////////////////////////////////////// //
+    async allBannerImg() {
+        try {
+            const bannerImg = await ProductBannerImage.findAll();
+            if (bannerImg) {
+                return bannerImg
+            }
+            // return null
+            throw createError(404, 'Invalid path');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async singleBannerImg(id) {
+        try {
+            const bannerImg = await ProductBannerImage.findByPk(id);
+            if (!bannerImg) {
+                throw createError(404, "Image not found");
+            }
+            return bannerImg;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateBannerImage(id, body) {
+        try {
+            const bannerImg = await this.singleBannerImg(id);
+            const updateBannerImg = await bannerImg.update(body);
+            return updateBannerImg;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async removeBannerImage(id) {
+        try {
+            const image = await ProductBannerImage.destroy({ where: { id: id }, individualHooks: true });
+            if (!image) {
+                throw createError(404, 'Invalid ID no image found');
+            }
+            return { message: 'Successfully removed the image' }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async allProductsAndBannerImg() {
+        try {
+            const products = await Product.findAll({
+                include: {
+                    model: ProductBannerImage
+                }
+            });
+            if (products) {
+                return products
+            }
+            // return null
+            throw createError(404, 'Invalid path');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findProductAndBannerImg(id) {
+        try {
+            const product = await Product.findOne({
+                attributes: {exclude: ["created_at", "updated_at"]},
+                where: { id: id },
+                include: {
+                    model: ProductBannerImage,
+                    attributes: {exclude: ["created_at", "updated_at"]}
+                }
+            });
+
+            if (!product) {
+                throw createError(404, "Product and product image not found");
+            }
+            return product;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async newImgBanner(id, body) {
+        try {
+            const product = await this.findOneProduct(id);
+
+            body.product_id = product.id;
+            const bannerImg = await ProductBannerImage.create(body);
+
+            if (!bannerImg) {
+                throw createError(409, "Failed to save product image");
+            }
+            return await this.findProductAndBannerImg(bannerImg.product_id);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateProductBannerImg(id, body) {
+        try {
+            const product = await this.findProductAndBannerImg(id);
+
+            const bannerImg = await this.singleBannerImg(product.ProductBannerImages[0].id);
+            const updateBannerImg = await bannerImg.update(body);
+            return updateBannerImg;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deleteProductBannerImg(id) {
+        try {
+            const product = await this.findProductAndBannerImg(id);
+
+            return await this.removeBannerImage(product.ProductBannerImages[0].id);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // //////////////////////////// PRODUCT, PRODUCT BANNER IMAGE AND PRODUCT IMAGES ALL TOGETHER! /////////////////////////////////////
+
+    async singleProductWithAllImages(id) {
+        try {
+            const product = await Product.findOne({
+                where: { id: id },
+                attributes: {exclude: ["created_at", "updated_at"]},
+                include: [{
+                    model: ProductBannerImage,
+                    attributes: {exclude: ["created_at", "updated_at"]}
+                },{
+                    model: ProductImage,
+                    attributes: {exclude: ["created_at", "updated_at"]}
+                }]
+            });
+            if (product) {
+                return product
+            }
+            throw createError(404, "No product found");
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findAllProductsAllImages() {
+        try {
+            const products = await Product.findAll({
+                attributes: {exclude: ["created_at", "updated_at"]},
+                include: [{
+                    model: ProductBannerImage,
+                    attributes: {exclude: ["created_at", "updated_at"]}
+                },{
+                    model: ProductImage,
+                    attributes: {exclude: ["created_at", "updated_at"]}
+                }]
+            });
+            if (products) {
+                // const pro = await Promise.resolve(products.map(async (product) => await ProductService.base64(product.ProductBannerImage.banner_image_data)));
+                // console.log(pro);
+                return products
+            }
+            throw createError(404, 'Invalid path');
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    async addProductAndAllImages(product, banner_image, all_images) {
+        try {
+            const theProduct = await this.addProduct(product);
+            if (!theProduct) {
+                throw createError(409, 'Failed to save product');
+            }
+
+            const imgBanner = await this.newImgBanner(theProduct.id, banner_image);
+            for (const unit of all_images) {
+                unit.product_id = theProduct.id;
+            }
+
+            const newImages = await Promise.all(all_images.map(async (image) => await ProductImage.create(image)));
+
+
+            if (newImages && imgBanner) {
+                return this.singleProductWithAllImages(theProduct.id);
+            } else {
+                await this.deleteProduct(theProduct.id);
+                throw createError(409, 'Failed to save images to the product');
+            }
         } catch (error) {
             throw error;
         }

@@ -5,9 +5,14 @@ module.exports = (sequelize, DataTypes, literal) => {
       primaryKey: true,
       autoIncrement: true
     },
-    // user_id: { // ContactDetail.belongTo(User) THIS IS THE FKEY
-    //   type: DataTypes.BIGINT
-    // },
+    first_name: {
+      type: DataTypes.STRING(100),
+      // allowNull: false
+    },
+    last_name: {
+      type: DataTypes.STRING(100),
+      // allowNull: false
+    },
     address_line1: {
       type: DataTypes.STRING(100),
       allowNull: false
@@ -27,6 +32,18 @@ module.exports = (sequelize, DataTypes, literal) => {
     country: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    phone_number: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      validate: { /* "+44 123456 7890" "+44 079 456 7890" * "+1 555 555 1234" * "+252 615 555 555" * "+1 416 1234 5678" * +966 123 456 789 */
+        // is: "^(\+\d{1,3}\s)?\(?\d{3}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}$", // ^(\+\d{1,3}[\s-])?\(?\d{3}\)?[\s-]?\d{3,4}[\s-]?\d{3,5}$   use this regex instead
+        validatePhone: (value) => {
+          if (!/^(\+\d{1,3}\s)?\(?\d{3}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}$/.test(value)) {
+            throw new Error("Phone format error!");
+          }
+        }
+      }
     }
   }, {
     tableName: 'contact_details',
@@ -45,7 +62,7 @@ module.exports = (sequelize, DataTypes, literal) => {
     charset: 'utf8',
     collate: 'utf8_general_ci'
     // paranoid: true
-  })
+  });
   ContactDetail.addHook('beforeCreate', (record, options) => {
     record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
     record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');

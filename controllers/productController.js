@@ -75,17 +75,36 @@ exports.allProductsAndImages = async (req, res, next) => {
 exports.newProductsAndImages = async (req, res, next) => {
     try {
         const product = await productService.addProductImages(req.body.product, req.body.product_images);
-
         res.status(201).send(product);
     } catch (error) {
         next(error);
     }
 }
 
+exports.findAllProductsWithAllImages = async (req, res, next) => {
+    try {
+        const products = await productService.findAllProductsAllImages();
+        res.status(200).json(products);
+    } catch (error) {
+        next(error);
+    }
+}
 
+exports.findSingleProductWithAllImages = async (req, res, next) => {
+    try {
+        const product = await productService.singleProductWithAllImages(req.params.id);
+        res.status(200).json(product);
+    } catch (error) {
+        next(error);
+    }
+}
 
-
-
-
-
-// ----------------------------
+exports.newProductWithAllImages = async (req, res, next) => {
+    try {
+        const { product, banner_image, all_images } = req.body;
+        const addProduct = await productService.addProductAndAllImages(product, banner_image, all_images);
+        res.status(201).json(addProduct);
+    } catch (error) {
+        next(error);
+    }
+}

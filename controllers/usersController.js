@@ -19,9 +19,18 @@ exports.findAUser = async (req, res, next) => {
     try {
         const user = await userService.findOneUser(req.params.id);
         sameUserCheck(res.locals.userIdRole, user.id);
-        res.status(200).send(user)
+        res.status(200).send(user);
     } catch (error) {
         next(error)
+    }
+}
+
+exports.findUserByEmail = async (req, res, next) => {
+    try {
+        const user = await userService.findByEmail(req.params.email);
+        res.status(200).send(user);
+    } catch (error) {
+        next(error);
     }
 }
 
@@ -35,25 +44,46 @@ exports.updateUser = async (req, res, next) => {
     }
 }
 
+exports.addGuest = async (req, res, next) => {
+    try {
+        // const { email } = req.body;
+        // console.log(req.body);
+        // req.body.role = "customer";
+        req.body.is_admin = false;
+        req.body.is_guest = true;
+        req.body.roles = ["customer"];
+        const userQuery = await userService.addGuest(req.body);
+        res.status(200).send(userQuery);
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.addUser = async (req, res, next) => {// pushed over
     try {
-        req.body.is_admin = false
+        req.body.is_admin = false;
+        req.body.is_guest = false;
+        req.body.email_campaign = false;
         req.body.password = String(req.body.password);
+        // if (!req.body.roles) {
+            req.body.roles = ["customer"];
+        // }
         const userQuery = await userService.addUser(req.body);
 
         if (res.locals.Authorized) {
             return res.status(201).json(userQuery);
         } else {
-            const user = {
-                id: userQuery.id, role: userQuery.is_admin ? "Administrator" : "User", email: userQuery.email, Authorized: true
-            }
-            const token = jwtGenerator(user);
+            // const user = {
+            //     id: userQuery.id, role: userQuery.is_admin ? "Administrator" : "User", email: userQuery.email, Authorized: true
+            // }
+            // const token = jwtGenerator(user);
     
-            res.cookie("access_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-            });
-            res.status(201).json({ message: "Logged in successfully 😊 👌", user, token });
+            // res.cookie("access_token", token, {
+            //     httpOnly: true,
+            //     secure: process.env.NODE_ENV === "production",
+            // });
+            // res.status(201).json({ message: "Logged in successfully 😊 👌", user,/* token */});
+            res.status(201).json(userQuery)
         }
 
     } catch (error) {
@@ -74,15 +104,18 @@ exports.removeUser = async (req, res, next) => {
 
 exports.addAdmin = async (req, res, next) => {
     try {
-        req.body.is_admin = true
+        req.body.is_admin = true;
         req.body.password = String(req.body.password);
+        req.body.is_guest = false;
+        req.body.email_campaign = false;
+        req.body.roles = ["admin", "moderator"];
         const userQuery = await userService.addUser(req.body);
 
-        const user = {
-            id: userQuery.id, role: userQuery.is_admin ? "Administrator" : "User", email: userQuery.email, Authorized: false
-        }
+        // const user = {
+        //     id: userQuery.id, role: userQuery.is_admin ? "Administrator" : "User", email: userQuery.email, Authorized: false
+        // }
 
-        res.status(201).json({ message: "New administrator created 😊 👌", user });
+        res.status(201).json({ message: "New administrator created 😊 👌", user: userQuery });
     } catch (error) {
         next(error);
     }

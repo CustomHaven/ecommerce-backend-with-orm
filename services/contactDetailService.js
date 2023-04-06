@@ -8,7 +8,9 @@ module.exports = class ContactDetailService {
 
     static async findUser(id) {
         try {
-            const user = await User.findByPk(id);
+            const user = await User.findByPk(id, {
+                attributes: { exclude: ["created_at", "updated_at"] }
+            });
             if (!user) {
                 throw createError(404, "User not found");
             }
@@ -18,9 +20,25 @@ module.exports = class ContactDetailService {
         }
     }
 
+    static async theShippingDetail(id) {
+        try {
+            const contactDetail = await ContactDetail.findByPk(id, {
+                attributes: { exclude: ["created_at", "updated_at"] }
+            });
+            if (!contactDetail) {
+                throw createError(404, "No shipping details found");
+            }
+            return contactDetail;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async findAllContacts() {
         try {
-        const allContacts = await ContactDetail.findAll();
+        const allContacts = await ContactDetail.findAll({
+            attributes: { exclude: ["created_at", "updated_at"] }
+        });
         if (allContacts) {
             return allContacts
         }
@@ -33,7 +51,9 @@ module.exports = class ContactDetailService {
 
     async findOneContact(id, userIdRole) {
         try {
-            const contact = await ContactDetail.findByPk(id);
+            const contact = await ContactDetail.findByPk(id, {
+                attributes: { exclude: ["created_at", "updated_at"] }
+            });
             const user = await ContactDetailService.findUser(contact.user_id);
             sameUserCheck(userIdRole, user.id);
             if (!contact) {
@@ -51,7 +71,9 @@ module.exports = class ContactDetailService {
                 where: { id: id },
                 include: {
                     model: ContactDetail,
-                }
+                    attributes: { exclude: ["created_at", "updated_at"] }
+                },
+                attributes: { exclude: ["created_at", "updated_at"] }
             });
             sameUserCheck(userIdRole, contact.id);
             if (!contact) {
@@ -70,9 +92,11 @@ module.exports = class ContactDetailService {
             body.user_id = user.id;
             const contact = await ContactDetail.create(body);
             if (!contact) {
+                console.log("IT FAILED?!");
                 throw createError(409, "Failed to save shipping details");
-            }
-            return contact;
+            };
+            const shippingDetail = await ContactDetailService.theShippingDetail(contact.id);
+            return shippingDetail;
         } catch (error) {
             throw error;
         }
@@ -90,7 +114,8 @@ module.exports = class ContactDetailService {
         if (!updatedContact) { // works regardless even if we put a key that is not in the DB so probably will delete this if block!
             throw createError(409, "Failed to update contact");
         }
-        return updatedContact;
+        const shippingDetail = await ContactDetailService.theShippingDetail(updatedContact.id);
+        return shippingDetail;
         } catch (error) {
             throw error;
         }

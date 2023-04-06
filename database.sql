@@ -53,6 +53,15 @@ CREATE TABLE IF NOT EXISTS product_images (
     modified date DEFAULT NOW()::timestamp
 );
 
+CREATE TABLE IF NOT EXISTS product_banner_images (
+    id bigserial NOT NULL PRIMARY KEY,
+    product_id text REFERENCES products (id) ON DELETE CASCADE,
+    banner_image_name varchar(255),
+    banner_image_data bytea NOT NULL,
+    created date DEFAULT NOW()::timestamp,
+    modified date DEFAULT NOW()::timestamp
+);
+
 CREATE TABLE IF NOT EXISTS carts (
     id bigserial NOT NULL PRIMARY KEY,
     user_id text NULL REFERENCES users (id) ON DELETE CASCADE,
@@ -117,6 +126,10 @@ ALTER COLUMN created TYPE timestamp(0) USING created::timestamp(0),
 ALTER COLUMN modified TYPE timestamp(0) USING modified::timestamp(0);
 
 ALTER TABLE product_images
+ALTER COLUMN created TYPE timestamp(0) USING created::timestamp(0),
+ALTER COLUMN modified TYPE timestamp(0) USING modified::timestamp(0);
+
+ALTER TABLE product_banner_images
 ALTER COLUMN created TYPE timestamp(0) USING created::timestamp(0),
 ALTER COLUMN modified TYPE timestamp(0) USING modified::timestamp(0);
 

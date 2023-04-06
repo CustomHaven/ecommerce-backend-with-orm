@@ -2,12 +2,20 @@ const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 const { TOKEN } = require("../config");
 
-const jwtVerify = (cookie, res) => {
-    const data = jwt.verify(cookie, TOKEN);
+const jwtVerify = (cookie, res, tokenType) => {
+    let data; 
+    
+    if (tokenType === "refresh") {
+        data = jwt.verify(cookie, TOKEN.REFRESH_TOKEN); 
+    } else {
+        data = jwt.verify(cookie, TOKEN.ACCESS_TOKEN); 
+    }
+
+    console.log(data);
 
     res.locals.userIdRole = {
         id: data.id,
-        role: data.role
+        role: data.roles.map(role => role)
     };
     res.locals.userId = data.id;
     res.locals.userRole = data.role;
@@ -19,13 +27,24 @@ const jwtVerify = (cookie, res) => {
 
 const cookieJwtAuth = (req, res, next) => {
     try {
-        const token = req.cookies.access_token;
+        // console.log("req.token in cookie jwtauth full object of cookies", req.cookies);
+        // console.log("req.token in cookie jwtauth access_token?", req.cookies.access_token);
+        // console.log("req.token in cookie jwtauth access_token?", req.cookies.access_token);
 
-        if (!token) {
+        const tokenAccess = req.cookies.access_token ? req.cookies.access_token : null;
+        const tokenRefresh = req.cookies.refreshed_token ? req.cookies.refreshed_token : null;
+
+        if (!tokenAccess && !tokenRefresh) {
             throw createError(403, "Forbidden");
         }
 
-        jwtVerify(token, res);
+        if (tokenAccess) {
+            jwtVerify(tokenAccess, res, "access");
+        }
+
+        if (tokenRefresh) {
+            jwtVerify(tokenRefresh, res, "refresh");
+        }
 
         return next();
     } catch(error) {
@@ -35,12 +54,16 @@ const cookieJwtAuth = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
 
-    if (!req.cookies.access_token) {
+    console.log("isADMIN!")
+    // const tokenAccess = req.cookies.access_token ? req.cookies.access_token : null;
+    // const tokenRefresh = req.cookies.refreshed_token ? req.cookies.refreshed_token : null;
+
+    if (!req.cookies.refreshed_token) {
         throw createError(401, "Unauthorized");
     }
 
-    jwtVerify(req.cookies.access_token, res);
-
+    jwtVerify(req.cookies.refreshed_token, res, "refresh");
+    // console.log("what", what);
     try {
         if (res.locals.userRole === "Administrator") {
             return next();
@@ -51,8 +74,17 @@ const isAdmin = (req, res, next) => {
     }
 }
 
+const accessGranted = (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
 
 module.exports = {
     cookieJwtAuth,
-    isAdmin
+    isAdmin,
+    jwtVerify
 }

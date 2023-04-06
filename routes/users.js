@@ -8,12 +8,18 @@ const authorization = require('../middleware/authorization');
 module.exports = (app) => {
     app.use('/api/v2/users', router);
 
+    router.post("/register/guest", userController.addGuest);//
+
     router.post('/register/user', validInfo, userController.addUser); // sign up
+    router.post('/register/newadmin', validInfo, isAdmin, userController.addAdmin); // sign up an admin
+
+    router.get('/email/:email', userController.findUserByEmail); // get a user
+
+
     router.get('/', isAdmin, userController.findAll); // get all users
     router.get('/:id', cookieJwtAuth, userController.findAUser); // get a user
     router.put('/:id', validInfo, cookieJwtAuth, userController.updateUser); // update a user
     router.delete('/:id', cookieJwtAuth, userController.removeUser); // delete user
-    router.post('/register/newadmin', validInfo, isAdmin, userController.addAdmin); // sign up an admin
 
 
     return router;

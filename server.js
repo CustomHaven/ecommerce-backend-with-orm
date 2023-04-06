@@ -7,6 +7,7 @@ const allModels = require('./models');
 const { HOST } = require("./config");
 // Crypto we are using to generate the secret string to use for JWT
 // const crypto = require('crypto').randomBytes(64).toString('hex');
+// console.log(crypto);
 
 module.exports = app;
 async function startServer () {

@@ -1,8 +1,20 @@
 const Models = require('../models');
-const { Cart, CartList, Product } = Models;
+const { Cart, CartList, Product, User } = Models;
 const createError = require("http-errors");
 
 module.exports = class CartService {
+
+    static async findUser(id) {
+        try {
+            const user = await User.findByPk(id);
+            if (!user) {
+                throw createError(404, "No user found");
+            }
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     static async findProduct(id) {
         try {
@@ -29,10 +41,25 @@ module.exports = class CartService {
         }
     }
     
-    async addCart(body, userId) {
+    async addCart(body, userId, abandonded) {
         try {
-            body.user_id = userId;
-            body.abandoned = true;
+            let user;
+            if (userId !== null) {
+                user = await CartService.findUser(userId);
+            }
+
+            if (userId === null) {
+                body.user_id = userId;
+            } else {
+                body.user_id = user.id
+            }
+
+            if (abandonded === "TRUE") {
+                body.abandoned = true;
+            } else {
+                body.abandoned = false;
+            }
+
             const cart = await Cart.create(body);
             if (!cart) {
                 throw createError(409, "Failed to save cart");
@@ -57,10 +84,11 @@ module.exports = class CartService {
 
     // make one update where we put the user_id into
 
-    async userCart(id, user) { // need swagger docs
+    async userCart(id, userId) { // need swagger docs
         try {
             const cart = await this.findCart(id);
-            return await cart.update({ user_id: user }); // maybe use query instead of body?
+            const user = await CartService.findUser(userId);
+            return await cart.update({ user_id: user.id }); // maybe use query instead of body?
         } catch (error) {
             throw error;
         }
@@ -68,8 +96,18 @@ module.exports = class CartService {
 
     async abandonedCart(id, update) { // need swagger docs
         try {
+            console.log("ID!", id);
+            console.log("update!", update);
             const cart = await this.findCart(id);
-            return await cart.update({ abandoned: update }); // maybe DONT send anything in and put directly false instead?
+
+            let abandoned;
+            if (update === "TRUE") {
+                abandoned = true;
+            } else {
+                abandoned = false;
+            }
+
+            return await cart.update({ abandoned: abandoned }); // maybe DONT send anything in and put directly false instead?
         } catch (error) {
             throw error;
         }
@@ -111,6 +149,22 @@ module.exports = class CartService {
                 throw createError(404, "Cart does not exists");
             }
             return cart;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async newCartItem(cartId, body) {
+        try {
+            const product = await CartService.findProduct(body.product_id);
+            const cart = await this.findCart(cartId);
+            body.cart_id = cart.id;
+            body.product_id = product.id;
+            const cartItem = CartList.create(body);
+            if (!cartItem) {
+                throw createError(409, "Failed to save cart or the cart item");
+            }
+            return cartItem;
         } catch (error) {
             throw error;
         }

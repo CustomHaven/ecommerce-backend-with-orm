@@ -1,4 +1,7 @@
 DROP TABLE users CASCADE;
+DROP TABLE roles CASCADE;
+DROP TABLE refresh_tokens CASCADE;
+DROP TABLE user_roles CASCADE;
 DROP TABLE contact_details CASCADE;
 DROP TABLE products CASCADE;
 DROP TABLE product_images CASCADE;
@@ -8,6 +11,7 @@ DROP TABLE carts CASCADE;
 DROP TABLE cart_list CASCADE;
 DROP TABLE payment_details CASCADE;
 DROP TABLE session CASCADE;
+DROP TABLE product_banner_images CASCADE;
 
 DROP SEQUENCE IF EXISTS order_seq CASCADE;
 DROP SEQUENCE IF EXISTS user_seq CASCADE;
