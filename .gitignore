@@ -10,3 +10,4 @@ seed_database.sql
 drop_table.sql
 database.sql
 /controllers/bgController.js
+/routes/bgRemover.js
