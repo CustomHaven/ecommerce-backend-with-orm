@@ -61,9 +61,16 @@ exports.addGuest = async (req, res, next) => {
 
 exports.addUser = async (req, res, next) => {// pushed over
     try {
+
+        if (req.body.confirm_password) {
+            if (req.body.password !== req.body.confirm_password) {
+                throw createError(400, "Password does not match");
+            }
+        }
+
         req.body.is_admin = false;
         req.body.is_guest = false;
-        req.body.email_campaign = false;
+        // req.body.email_campaign = false;
         req.body.password = String(req.body.password);
         // if (!req.body.roles) {
             req.body.roles = ["customer"];

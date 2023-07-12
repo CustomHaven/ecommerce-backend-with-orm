@@ -22,10 +22,9 @@ module.exports = {
 
     loginRoute: async (req, res, next) => {
         try {
-
+            console.log(req.body);
             req.body.password = String(req.body.password);
 
-            // db query trying to force a sinon.stub to resolve a fake value. But code wont pass here hence 500 error
             const userQuery = await authService.loginByEmail(req.body.email, req.body.password);
 
             const user = {

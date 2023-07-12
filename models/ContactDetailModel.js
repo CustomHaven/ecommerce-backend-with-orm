@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes, literal) => {
     },
     first_name: {
       type: DataTypes.STRING(100),
-      // allowNull: false
+      allowNull: false // just switch on now
     },
     last_name: {
       type: DataTypes.STRING(100),
-      // allowNull: false
+      allowNull: false // just switch on now
     },
     address_line1: {
       type: DataTypes.STRING(100),

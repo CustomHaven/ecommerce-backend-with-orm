@@ -56,7 +56,7 @@ exports.findACartList = async (req, res, next) => {
     }
 }
 
-exports.updateACartList = async (req, res, next) => {
+exports.updateACartList = async (req, res, next) => { //
     try {
         const cartItem = await cartListService.updateCartItem(Number(req.params.id), req.body);
         res.status(201).send(cartItem);

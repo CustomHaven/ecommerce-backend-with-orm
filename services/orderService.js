@@ -1,5 +1,6 @@
+const db = require('../db');
 const Models = require('../models');
-const { Order, OrderList, Cart, CartList, Product, User } = Models;
+const { Order, OrderList, Cart, CartList, Product, User, ContactDetail, ProductBannerImage } = Models;
 const createError = require("http-errors");
 const sameUserCheck = require("../utils/sameUserCheck");
 
@@ -49,9 +50,35 @@ module.exports = class OrderService {
     async findAllOrders() {
         
         try {
-            const order = await Order.findAll();
+            const order = await Order.findAll({
+                distinct: true,
+                include: [
+                    {
+                        distinct: true,
+                        model: User,
+                        attributes: ["id", "email", "facebook_id", "google_id", "is_guest", "email_campaign"],
+                        include: {
+                            distinct: true,
+                            model: ContactDetail,
+                            attributes: ["first_name", "last_name"],
+                        },
+                    },
+                    {
+                        model: OrderList,
+                        attributes: ["id", "order_id", "quantity", "price", "product_id"],
+                        include: {
+                            model: Product,
+                            attributes: ["id", "product_name"],
+                            include: {
+                                model: ProductBannerImage,
+                                attributes: ["id", "product_id", "banner_image_name", "banner_image_data"]
+                            }
+                        }
+                    }
+                ],
+            });
             if (order) {
-                return order
+                return order;
             }
             throw createError(404, 'Invalid path');
         } catch (error) {
@@ -87,8 +114,10 @@ module.exports = class OrderService {
         try {
             const order = await Order.findOne({
                 where: { id: id },
+                attributes: { exclude: ["created_at", "updated_at"] },
                 include: {
                     model: OrderList,
+                    attributes: { exclude: ["created_at", "updated_at"] }
                 }
             });
             sameUserCheck(userIdRole, order.user_id);
@@ -110,24 +139,22 @@ module.exports = class OrderService {
             // calling the static methods to see if the user and cart id's are infact in the database
             const user = await OrderService.findUser(userId);
             sameUserCheck(userIdRole, user.id); // making sure only the user can only access their information ONLY
-            const cart = await OrderService.findCart(cartId);
 
+            const cart = await OrderService.findCart(cartId);
             // filling up the price and quantity array's at the same time looking into the static Product method to see if infact we have the product
             await Promise.all(cart.CartLists.map(async item => {
                 const product = await OrderService.findProduct(item.product_id);
-                price.push(product.price * item.quantity);
+                price.push(parseFloat((product.price * item.quantity).toFixed(2)));
                 quantity.push(item.quantity);
                 productIds.push(product.id);
             }));
 
             // if all is good and no problem we populate the body to send to the addOrder method
-            body.final_price = parseFloat(price.reduce((acc, curr) => acc + curr)).toFixed(2);
+            // body.final_price = parseFloat(price.reduce((acc, curr) => acc + curr)).toFixed(2);
             body.total_items = parseInt(quantity.reduce((acc, curr) => acc + curr));
             body.user_id = user.id;
             body.cart_id = cart.id;
-
             const order = await this.addOrder(body);
-
 
             // after all that we will populate the DB for all the individual order items for the OrderList table
             const orderItems = [];
@@ -142,7 +169,7 @@ module.exports = class OrderService {
                 orderItems.push(orderItem);
             }
 
-            return await this.findOrder(order.id);
+            return await this.findOrder(order.id, userIdRole);
         } catch (error) {
             throw error;
         }
@@ -200,6 +227,30 @@ module.exports = class OrderService {
                 throw createError(404, "No item found");
             }
             return item;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async bestSellers() {
+        try {
+            const best = await OrderList.findAll({
+                attributes: [[db.fn("sum", db.col("OrderList.quantity")), "Sales"]],
+                group: ["Product.id"],
+                include: {
+                    model: Product,
+                    attributes: [["product_name", "Name"]], // renames the column name!
+                },
+                raw: true
+            });
+
+            if (best) {
+                return best.map(obj => ({
+                    Product_Name: obj["Product.Name"],
+                    Sales: obj.Sales
+                })).sort((a,b) => Number(b.Sales) - Number(a.Sales));
+            }
+            throw createError(500, "WRONG!")
         } catch (error) {
             throw error;
         }

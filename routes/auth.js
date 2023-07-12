@@ -8,8 +8,8 @@ module.exports = (app) => {
 
     router.post("/users", authController.practise);
 
-    router.post("/login", validInfo, authController.loginRoute);//
+    router.post("/login", validInfo, authController.loginRoute);
     router.get("/logout", cookieJwtAuth, authController.logoutRoute);
     router.get("/protected", cookieJwtAuth, authController.protectedRoute); // make swagger for this
     router.post("/refresh", authController.refreshRoute);
-}
+}//

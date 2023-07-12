@@ -1,5 +1,5 @@
 const Models = require('../models');
-const { PaymentDetail, User, ContactDetail } = Models;
+const { PaymentDetail, User, ContactDetail, Role } = Models;
 const createError = require("http-errors");
 const sameUserCheck = require("../utils/sameUserCheck");
 
@@ -25,12 +25,22 @@ module.exports = class PaymentService {
      */
     static async findUserContactDetails(id, userIdRole) {
         try {
+            console.log("user", id, userIdRole);
             const user = await User.findOne({
                 where: {id: id},
-                include: {
-                    model: ContactDetail
-                }
+                include: [
+                    {
+                        model: Role,
+                        attributes: { exclude: ["id", "created_at", "updated_at"] },
+                        through: { attributes: [] }
+                    },
+                    {
+                        model: ContactDetail,
+                        attributes: { exclude: ["created_at", "updated_at"] }
+                    }
+                ]
             });
+            console.log("USER SERVICE", user);
             sameUserCheck(userIdRole, user.id);
             if (!user) {
                 throw createError(404, "No user found");

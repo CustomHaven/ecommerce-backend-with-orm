@@ -27,6 +27,7 @@ const jwtVerify = (cookie, res, tokenType) => {
 
 const cookieJwtAuth = (req, res, next) => {
     try {
+        console.log("refresh_token??", req.cookies.refreshed_token);
         // console.log("req.token in cookie jwtauth full object of cookies", req.cookies);
         // console.log("req.token in cookie jwtauth access_token?", req.cookies.access_token);
         // console.log("req.token in cookie jwtauth access_token?", req.cookies.access_token);
@@ -34,15 +35,15 @@ const cookieJwtAuth = (req, res, next) => {
         const tokenAccess = req.cookies.access_token ? req.cookies.access_token : null;
         const tokenRefresh = req.cookies.refreshed_token ? req.cookies.refreshed_token : null;
 
-        if (!tokenAccess && !tokenRefresh) {
+        if (tokenAccess === null && tokenRefresh === null) {
             throw createError(403, "Forbidden");
         }
 
-        if (tokenAccess) {
+        if (tokenAccess !== null) {
             jwtVerify(tokenAccess, res, "access");
         }
 
-        if (tokenRefresh) {
+        if (tokenRefresh !== null) {
             jwtVerify(tokenRefresh, res, "refresh");
         }
 

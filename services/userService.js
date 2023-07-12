@@ -166,15 +166,18 @@ module.exports = class UserService {
           through: { attributes: [] }
         }
       });
-      console.log(user.password);
+      // console.log(user.password);
+      if (!user) {
+        throw new createError(404, "User not found");
+      }
+      if (user.is_guest) {
+        return user;
+      }
       const compare = await bcrypt.compare(password, user.password);
       if (!compare) {
         throw createError(400, "Username or password is invalid");
       }
-      if (user) {
-        return user;
-      }
-      throw new createError(404, "User not found");
+      return user;
     } catch (err) {
       err.code = 404;
       throw err

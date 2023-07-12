@@ -2475,7 +2475,7 @@ paths:
           description: Success
       tags:
         - Orders
-  /api/v2/orders/{user_id}/{cart_id}:
+  /api/v2/orders/order-fulfilled:
     summary: Completed successful orders
     description: All routes to completed orders
     post:
@@ -2486,13 +2486,13 @@ paths:
       operationId: complete_order_does_order_list_as_well
       parameters:
         - name: user_id
-          in: path
+          in: query
           description: The id of the user
           required: true
           schema:
             type: string
         - name: cart_id
-          in: path
+          in: query
           description: The id of the cart
           required: true
           schema:

@@ -31,6 +31,11 @@ module.exports = (sequelize, DataTypes) => {
                 max: 9999,
                 min: 100
             }
+        },
+        payment_provider_id: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+            defaultValue: "missed"
         }
     }, {
         tableName: 'payment_details',

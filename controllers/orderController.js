@@ -13,10 +13,17 @@ exports.findAllOrders = async (req, res, next) => {
 
 exports.newCompleteOrder = async (req, res, next) => {
     try {
-        const { user_id, cart_id } = req.params; // might do this as a query param
+        const { final_price, shipping_price, shipping_method, cart_price, payment_provider_id } = req.body;
+        const { user_id, cart_id } = req.query; // might do this as a query param
         const data = {
             shipping_status: "pending", // Maybe we send in from the req.body just these two
-            tracking_id: "not available" // Maybe we send in from the req.body just these two
+            tracking_id: "not available", // Maybe we send in from the req.body just these two
+            payment_provider_id,
+            final_price,
+            cart_price,
+            shipping_method,
+            shipping_price
+            // payment_accepted: true
         };
 
         const completeOrder = await orderService.fullOrder(user_id, cart_id, data, res.locals.userIdRole);
@@ -48,6 +55,15 @@ exports.removeOrder = async (req, res, next) => {
     try {
         await orderService.deleteOrder(req.params.id);
         res.sendStatus(204);
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.bestSeller = async (req, res, next) => {
+    try {
+        const bestSellers = await orderService.bestSellers();
+        res.status(200).send(bestSellers);
     } catch (error) {
         next(error);
     }

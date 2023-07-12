@@ -12,6 +12,21 @@ module.exports = (sequelize, DataTypes, literal) => {
       allowNull: false,
       defaultValue: "pending"
     },
+    cart_price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0
+    },
+    shipping_method: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      defaultValue: "missed"
+    },
+    shipping_price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0
+    },
     final_price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
@@ -24,6 +39,11 @@ module.exports = (sequelize, DataTypes, literal) => {
       type: DataTypes.STRING(100),
       allowNull: false,
       defaultValue: "not available"
+    },
+    payment_provider_id: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      defaultValue: "missed"
     }
   }, {
     tableName: 'orders',

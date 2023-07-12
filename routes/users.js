@@ -10,7 +10,7 @@ module.exports = (app) => {
 
     router.post("/register/guest", userController.addGuest);//
 
-    router.post('/register/user', validInfo, userController.addUser); // sign up
+    router.post('/register/user', validInfo, userController.addUser); // sign up //
     router.post('/register/newadmin', validInfo, isAdmin, userController.addAdmin); // sign up an admin
 
     router.get('/email/:email', userController.findUserByEmail); // get a user

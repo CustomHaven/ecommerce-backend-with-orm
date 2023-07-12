@@ -72,7 +72,20 @@ module.exports = class CartService {
 
     async findCart(id) {
         try {
-            const cart = await Cart.findByPk(id);
+            const cart = await Cart.findByPk(
+                id, {
+                    attributes: { exclude: ["created_at", "updated_at", "password"] },
+                    include: {
+                            model: CartList,
+                            attributes: { exclude: ["created_at", "updated_at"] },
+                        include: {
+                            model: Product,
+                            attributes: { exclude: ["created_at", "updated_at", "type", "source", "description", "quantity"] },
+                        }
+                    }
+                }
+            );
+
             if (!cart) {
                 throw createError(404, "No cart found");
             }
@@ -88,7 +101,8 @@ module.exports = class CartService {
         try {
             const cart = await this.findCart(id);
             const user = await CartService.findUser(userId);
-            return await cart.update({ user_id: user.id }); // maybe use query instead of body?
+            await cart.update({ user_id: user.id }); // maybe use query instead of body?
+            return await this.findCart(cart.id);
         } catch (error) {
             throw error;
         }

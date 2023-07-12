@@ -55,10 +55,16 @@ exports.removePaymentDetail = async (req, res, next) => {
 
 exports.masterPay = async (req, res, next) => {
     try {
+        console.log("ARE WE IN THE PAYMENTS???!", req.body);
         const { name_on_card, card_type, card_number, expiry_date, cvv, amount } = req.body;
+
+        console.log("res.locals.userIdRole", res.locals.userIdRole);
+        console.log("req.params.user_id", req.params.user_id);
         
         const user = await PaymentService.findUserContactDetails(req.params.user_id, res.locals.userIdRole);
-        const userName = user.first_name + " " + user.last_name;
+        console.log("USER FIND USER CONTACT DETAILS", user);
+        const userName = user.ContactDetail.first_name + " " + user.ContactDetail.last_name;
+        console.log("USERNAME", userName)
         // console.log(userName);
         // console.log(user)
         // console.log(user.ContactDetail.address_line1);
@@ -76,6 +82,8 @@ exports.masterPay = async (req, res, next) => {
             name: userName.replace(/(^\w{1})|(\s\w{1})/g, (v) => v.toUpperCase())
         });
 
+        console.log("CUSTOMER WORKED??", customer);
+
 
         // preparing payment method
         const paymentMethod = await stripe.paymentMethods.create({
@@ -88,7 +96,7 @@ exports.masterPay = async (req, res, next) => {
             },
         });
 
-/*
+/* 
 {
   "name_on_card": "ajay pilley", // fake but based on the user name we testing
   "card_type": "visa",
@@ -104,15 +112,61 @@ exports.masterPay = async (req, res, next) => {
             { customer: customer.id }
         );
 
+
         // 4000008260003178 // Insufficient funds credit card for TESTING
 
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount * 100,
+            amount: Math.round(amount * 100),
             currency: req.query.currency,
             customer: customer.id,
             payment_method: paymentMethod.id
         });
+        // res.status(201).send(paymentIntent);
 
+
+
+
+        // Might probably take paymentIntent to a different route
+        const paymentIntentConfirm = await stripe.paymentIntents.confirm(
+            paymentIntent.id,
+            {
+                payment_method: paymentMethod.id
+            }
+        );
+
+        // res.status(201).send({ risk_level: paymentIntentConfirm.charges.data[0].outcome.risk_level,
+        //     risk_score: paymentIntentConfirm.charges.data[0].outcome.risk_score, reason: paymentIntentConfirm.charges.data[0].outcome.reason });
+
+        
+
+        // // Maybe make another column saying paid string yes or no
+        // // And move this to the other route with paymenyIntents.confirm
+        const data = {
+            user_id: user.id,
+            name_on_card: name_on_card?.toUpperCase(),
+            card_type: card_type?.toUpperCase(),
+            card_number: parseInt(card_number),
+            expiry_date,
+            cvv: parseInt(cvv),
+            payment_provider_id: paymentIntentConfirm.id
+        }
+
+        // So move these to the other route
+        if (paymentIntentConfirm.charges.data.length > 0) {
+            await paymentService.newPayment(data);
+        } else {
+            console.log("payment failed"); // keeping this so I can keep record
+        }
+
+        res.status(201).json({ payment_id: paymentIntentConfirm.id });
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.acceptPayment = async (req, res, next) => {
+    try {
+        const { paymentMethod } = req.query;
 
 
         // Might probably take paymentIntent to a different route
@@ -141,8 +195,6 @@ exports.masterPay = async (req, res, next) => {
         } else {
             console.log("payment failed"); // keeping this so I can keep record
         }
-
-        res.status(201).send(paymentIntentConfirm.id);
     } catch (error) {
         next(error);
     }
