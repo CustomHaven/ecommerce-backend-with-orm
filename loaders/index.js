@@ -20,9 +20,13 @@ module.exports = async (app, express) => {
   app.use((err, req, res, next) => {
     const { message, httpStatusCode, code, status, statusCode } = err;
     // console.log(err)
+    loggers.info("STATUS ERROR CHECK onn loggers.http!!!!!!");
     loggers.http(status);
+    loggers.info("MESSAGE ERROR CHECK onn loggers.error!!!!!");
     loggers.error(message)
-    loggers.http(err);
+    loggers.info("err OF the START CHECKING ERROR CHECK onn loggers.info!!!!!!");
+    loggers.info(err);
+    loggers.info("ALL ERRORS FULLY CHECKED!!!!!!!");
     return res.status(status === undefined ? 500 : status).send({ message });
   });
   return app
