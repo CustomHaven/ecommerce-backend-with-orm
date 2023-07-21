@@ -28,15 +28,16 @@ module.exports = (app, express) => {
   const corsWhitelist = [
     "http://localhost:3000"
   ]
-  console.log("FRONTEND", FRONTEND);
+
   const corsOptions = {
     origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
     allowHeaders: ["Content-Type", "Accept"],
     "Access-Control-Allow-Origin": FRONTEND
-};
+  };
 
+  app.options("*", cors(corsOptions));
   // app.use(cors());
   app.use(cors(corsOptions));
 
