@@ -29,13 +29,11 @@ module.exports = (app, express) => {
 
   const corsOptions = {
     origin: (req, callback) => {
-      let whitelistOptions;
       if (corsWhitelist.indexOf(req.header('Origin')) !== -1) {
-        whitelistOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+        callback(null, true); // reflect (enable) the requested origin in the CORS response
       } else {
-        whitelistOptions = { origin: false } // disable CORS for this request
+        callback(null, false); // disable CORS for this request
       }
-      callback(null, whitelistOptions);
     },
     // origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
     credentials: true, //access-control-allow-credentials:true
