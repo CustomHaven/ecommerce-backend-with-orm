@@ -1,7 +1,7 @@
 const Models = require('../models');
 const { PaymentDetail, User, ContactDetail, Role } = Models;
 const createError = require("http-errors");
-const sameUserCheck = require("../utils/sameUserCheck.js");
+const sameUserCheck = require("../utils/sameUserCheck");
 
 
 module.exports = class PaymentService {

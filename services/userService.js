@@ -3,7 +3,7 @@ const Models = require('../models');
 const bcrypt = require('bcryptjs');
 const { User, ContactDetail, Role, RefreshToken, Order } = Models;
 const createError = require("http-errors");
-const sameUserCheck = require("../utils/sameUserCheck.js");
+const sameUserCheck = require("../utils/sameUserCheck");
 
 module.exports = class UserService {
 

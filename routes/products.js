@@ -1,6 +1,6 @@
-const productController = require('../controllers/productController.js');
+const productController = require('../controllers/productController');
 const router = require('express').Router();
-const { isAdmin } = require("../middleware/cookieJWTAuth.js");
+const { isAdmin } = require("../middleware/cookieJWTAuth");
 //
 module.exports = (app) => {
     app.use('/api/v2/products', router); 

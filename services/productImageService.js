@@ -1,4 +1,4 @@
-const ProductService = require("./productService.js");
+const ProductService = require("./productService");
 
 module.exports = class ProductImageService extends ProductService {
 

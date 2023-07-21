@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
-const UserService = require('../services/userService.js');
+const UserService = require('../services/userService');
 const userService = new UserService();
-const jwtGenerator = require('../utils/jwtGenerator.js');
+const jwtGenerator = require('../utils/jwtGenerator');
 const createError = require('http-errors');
-const sameUserCheck = require("../utils/sameUserCheck.js"); // makes sures only same user can access the route
+const sameUserCheck = require("../utils/sameUserCheck"); // makes sures only same user can access the route
 
 exports.findAll = async (req, res, next) => {
     try {

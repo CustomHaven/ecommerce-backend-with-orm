@@ -1,7 +1,7 @@
 const chai = require('chai');
 const { expect } = chai;
 const supertest = require('supertest');
-const app = require('../../server.js');
+const app = require('../../server');
 
 describe('/customer', () => {
   let response;

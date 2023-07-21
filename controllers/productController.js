@@ -1,8 +1,8 @@
 // const UserService = require('../services/productService');
 // const productService = new UserService();
-const ProductService = require("../services/productService.js");
+const ProductService = require("../services/productService");
 const productService = new ProductService();
-const jwtGenerator = require('../utils/jwtGenerator.js');
+const jwtGenerator = require('../utils/jwtGenerator');
 const createError = require('http-errors');
 
 exports.findAll = async (req, res, next) => {

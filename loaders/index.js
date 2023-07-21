@@ -1,8 +1,8 @@
-const expressLoader = require('./express.js');
+const expressLoader = require('./express');
 const routeLoaderV1 = require('../routes');
 const expressWinston = require('express-winston');
 const loggers = require('../loggers');
-const swaggerLoader = require('./swagger.js');
+const swaggerLoader = require('./swagger');
 
 module.exports = async (app, express) => {
   await expressLoader(app, express);

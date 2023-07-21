@@ -1,4 +1,4 @@
-const UserService = require("./userService.js");
+const UserService = require("./userService");
 
 module.exports = class AuthService extends UserService {
 

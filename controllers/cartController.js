@@ -1,4 +1,4 @@
-const CartService = require("../services/cartServices.js");
+const CartService = require("../services/cartServices");
 const cartService = new CartService();
 
 

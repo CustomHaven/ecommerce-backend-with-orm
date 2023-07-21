@@ -1,8 +1,8 @@
-const contactController = require("../controllers/contactDetailController.js");
+const contactController = require("../controllers/contactDetailController");
 const router = require("express").Router();
-const validInfo = require("../middleware/validInfo.js");
-const { isAdmin, cookieJwtAuth } = require("../middleware/cookieJWTAuth.js");
-const authorization = require("../middleware/authorization.js");
+const validInfo = require("../middleware/validInfo");
+const { isAdmin, cookieJwtAuth } = require("../middleware/cookieJWTAuth");
+const authorization = require("../middleware/authorization");
 
 module.exports = (app) => {
     app.use("/api/v2/contact-details", router);

@@ -2,7 +2,7 @@ const db = require('../db');
 const Models = require('../models');
 const { Order, OrderList, Cart, CartList, Product, User, ContactDetail, ProductBannerImage } = Models;
 const createError = require("http-errors");
-const sameUserCheck = require("../utils/sameUserCheck.js");
+const sameUserCheck = require("../utils/sameUserCheck");
 
 
 module.exports = class OrderService {

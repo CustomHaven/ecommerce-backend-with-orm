@@ -1,4 +1,4 @@
-const CartService = require("./cartServices.js");
+const CartService = require("./cartServices");
 
 module.exports = class CartListService extends CartService {
 

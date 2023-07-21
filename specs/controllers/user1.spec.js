@@ -1,15 +1,15 @@
 const chai = require('chai');
 const { expect } = chai;
 const supertest = require('supertest');
-const app = require('../../server.js');
+const app = require('../../server');
 const sinon = require('sinon');
 const sinonChai = require("sinon-chai");
 chai.should();
 chai.use(sinonChai);
-const { cookieJwtAuth, isAdmin } = require('../../middleware/cookieJWTAuth.js');
+const { cookieJwtAuth, isAdmin } = require('../../middleware/cookieJWTAuth');
 const proxyquire = require('proxyquire').noCallThru().noPreserveCache();
 const path = require('path');
-const AuthService = require("../../services/authService.js");
+const AuthService = require("../../services/authService");
 // console.log("START AuthService")
 // console.log(AuthService)
 // console.log("START AuthService")

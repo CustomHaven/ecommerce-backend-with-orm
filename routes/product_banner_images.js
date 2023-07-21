@@ -1,4 +1,4 @@
-const productBannerImageController = require('../controllers/productBannerImageController.js');
+const productBannerImageController = require('../controllers/productBannerImageController');
 const router = require('express').Router();
 const { isAdmin } = require("../middleware/cookieJWTAuth");
 

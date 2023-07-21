@@ -9,7 +9,7 @@ const sinonChai = require("sinon-chai");
 chai.use(sinonChai);
 // const AuthServiceOriginalClass = require("../../services/authService");
 const supertest = require('supertest');
-const app = require('../../server.js');
+const app = require('../../server');
 
 
 // console.log("auth-controller.spec")
