@@ -31,11 +31,8 @@ module.exports = (app, express) => {
     origin: (originNow, callback) => {
       loggers.info("INSIDE CORSOPTIONS!!!! originNow!YES!!!!!");
       loggers.info(originNow);
-      // loggers.info("INSIDE CORSOPTIONS!!!! originNow.header!YES!!!!!");
-      // loggers.info(originNow.header());
-      // loggers.info('INSIDE CORSOPTIONS!!!! originNow.header("Origin")!YES!!!!!');
-      // loggers.info(originNow.header("Origin"));
-      // loggers.info("INSIDE CORSOPTION!!! IT IS DONE!?");
+      // loggers.info("INSIDE CORSOPTIONS!!!! originNow!!!!!");
+      // loggers.info(originNow.header());;
 
       if (corsWhitelist.indexOf(originNow) !== -1) {
         callback(null, true); // reflect (enable) the requested origin in the CORS response
@@ -49,11 +46,11 @@ module.exports = (app, express) => {
     allowHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   };
+  app.use(cors(corsOptions));
 
   app.options("*", cors(corsOptions), (req, res, next) => next());
-  app.all("*", cors(corsOptions), (req, res, next) => next());
+  // app.all("*", cors(corsOptions), (req, res, next) => next());
   // app.use(cors());
-  app.use(cors(corsOptions));
 
   // app.all('*', cors(corsOptions));
 
