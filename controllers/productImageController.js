@@ -1,4 +1,4 @@
-const ProductImageService = require("../services/productImageService");
+const ProductImageService = require("../services/productImageService.js");
 const productImageService = new ProductImageService();
 
 

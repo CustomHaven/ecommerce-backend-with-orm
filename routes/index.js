@@ -1,15 +1,15 @@
-const authRouter = require("./auth");
-const userRouter = require("./users");
-const contactRouter = require("./contact_details");
-const productRouter = require("./products");
-const productImageRouter = require("./product_images");
-const productBannerImageRouter = require("./product_banner_images");
-const cartRouter = require("./carts");
-const cartListRouter = require("./cartList");
-const orderRouter = require("./orders");
-const orderListRouter = require("./orderList");
-const paymentRouter = require("./payment");
-// const bgRemoverRouter = require("./bgRemover");
+const authRouter = require("./auth.js");
+const userRouter = require("./users.js");
+const contactRouter = require("./contact_details.js");
+const productRouter = require("./products.js");
+const productImageRouter = require("./product_images.js");
+const productBannerImageRouter = require("./product_banner_images.js");
+const cartRouter = require("./carts.js");
+const cartListRouter = require("./cartList.js");
+const orderRouter = require("./orders.js");
+const orderListRouter = require("./orderList.js");
+const paymentRouter = require("./payment.js");
+// const bgRemoverRouter = require("./bgRemover.js");
 
 module.exports = (app) => {
 

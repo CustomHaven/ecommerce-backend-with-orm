@@ -1,6 +1,6 @@
-const cartController = require('../controllers/cartController');
+const cartController = require('../controllers/cartController.js');
 const router = require('express').Router();
-const { isAdmin } = require("../middleware/cookieJWTAuth");
+const { isAdmin } = require("../middleware/cookieJWTAuth.js");
 
 
 module.exports = (app) => {

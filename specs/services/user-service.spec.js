@@ -12,7 +12,7 @@ chai.should();
 chai.use(sinonChai);
 const createError = require("http-errors");
 
-const helpers = require('../test-utils/user-helper');
+const helpers = require('../test-utils/user-helper.js');
 const { customError, fakeId, id, userData, updatedUser, allUsers } = helpers;
 
 describe.only('/services/userService.js', function () {

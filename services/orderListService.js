@@ -1,4 +1,4 @@
-const OrderService = require("./orderService");
+const OrderService = require("./orderService.js");
 
 module.exports = class OrderListService extends OrderService {
 

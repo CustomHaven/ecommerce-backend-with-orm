@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
-const AuthService = require("../services/authService");
+const AuthService = require("../services/authService.js");
 const authService = new AuthService(); 
-const jwtGenerator = require('../utils/jwtGenerator');
+const jwtGenerator = require('../utils/jwtGenerator.js');
 const createError = require("http-errors");
 
 

@@ -12,15 +12,15 @@ const {
 chai.should();
 chai.use(sinonChai)
 
-const UserModel = require('../../models/UserModel');
-const ContactDetailModel = require("../../models/ContactDetailModel");
-const ProductModel = require("../../models/ProductModel");
-const ProductImageModel = require("../../models/ProductImageModel");
-const CartModel = require("../../models/CartModel");
-const CartListModel = require("../../models/CartListModel");
-const OrderModel = require("../../models/OrderModel");
-const OrderListModel = require("../../models/OrderListModel");
-const PaymentDetailModel = require("../../models/PaymentDetailModel"); 
+const UserModel = require('../../models/UserModel.js');
+const ContactDetailModel = require("../../models/ContactDetailModel.js");
+const ProductModel = require("../../models/ProductModel.js");
+const ProductImageModel = require("../../models/ProductImageModel.js");
+const CartModel = require("../../models/CartModel.js");
+const CartListModel = require("../../models/CartListModel.js");
+const OrderModel = require("../../models/OrderModel.js");
+const OrderListModel = require("../../models/OrderListModel.js");
+const PaymentDetailModel = require("../../models/PaymentDetailModel.js"); 
 
 
 

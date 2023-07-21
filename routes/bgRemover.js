@@ -1,4 +1,4 @@
-const bgController = require('../controllers/bgController');
+const bgController = require('../controllers/bgController.js');
 const router = require('express').Router();
 
 

@@ -1,6 +1,6 @@
-const authController = require('../controllers/authController');
-const { cookieJwtAuth } = require("../middleware/cookieJWTAuth");
-const validInfo = require("../middleware/validInfo");
+const authController = require('../controllers/authController.js');
+const { cookieJwtAuth } = require("../middleware/cookieJWTAuth.js");
+const validInfo = require("../middleware/validInfo.js");
 const router = require('express').Router();
 
 module.exports = (app) => {

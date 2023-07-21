@@ -1,7 +1,7 @@
 const chai = require('chai');
 const { expect } = chai;
 const supertest = require('supertest');
-const app = require('../../server');
+const app = require('../../server.js');
 
 describe('/dealer/product', () => {
   let response;

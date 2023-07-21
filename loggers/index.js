@@ -1,5 +1,5 @@
-const buildDevLogger = require("./dev-logger");
-const buildProdLogger = require("./prod-logger");
+const buildDevLogger = require("./dev-logger.js");
+const buildProdLogger = require("./prod-logger.js");
 
 let logger = null;
 

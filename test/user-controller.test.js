@@ -2,7 +2,7 @@ const supertest = require("supertest");
 const app = require('../server.js');
 const proxyquire = require("proxyquire");
 const path = require("path");
-const AuthService = require("../services/authService");
+const AuthService = require("../services/authService.js");
 const db = require("../db");
 const Models = require("../models")
 

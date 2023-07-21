@@ -1,7 +1,7 @@
 const Models = require('../models');
 const { ContactDetail, User } = Models;
 const createError = require("http-errors");
-const sameUserCheck = require("../utils/sameUserCheck"); // makes sures only same user can access the route
+const sameUserCheck = require("../utils/sameUserCheck.js"); // makes sures only same user can access the route
 
 
 module.exports = class ContactDetailService {

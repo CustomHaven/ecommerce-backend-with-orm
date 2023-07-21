@@ -1,4 +1,4 @@
-const ContactDetailService = require("../services/contactDetailService");
+const ContactDetailService = require("../services/contactDetailService.js");
 const contactService = new ContactDetailService();
 
 exports.findAll = async (req, res, next) => {

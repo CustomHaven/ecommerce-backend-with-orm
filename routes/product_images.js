@@ -1,6 +1,6 @@
-const productImageController = require('../controllers/productImageController');
+const productImageController = require('../controllers/productImageController.js');
 const router = require('express').Router();
-const { isAdmin } = require("../middleware/cookieJWTAuth");
+const { isAdmin } = require("../middleware/cookieJWTAuth.js");
 
 module.exports = (app) => {
     app.use('/api/v2/product-images', router); 

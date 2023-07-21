@@ -1,6 +1,6 @@
-const paymentController = require('../controllers/paymentController');
+const paymentController = require('../controllers/paymentController.js');
 const router = require('express').Router();
-const { cookieJwtAuth, isAdmin } = require("../middleware/cookieJWTAuth");
+const { cookieJwtAuth, isAdmin } = require("../middleware/cookieJWTAuth.js");
 
 module.exports = (app) => {
     app.use("/api/v2/payment-details", router);
