@@ -3,6 +3,7 @@ const morgan = require('morgan');
 // const session = require('express-session');
 // const { SESS } = require('../config');
 const db = require('../db');
+const { FRONTEND } = require("../config")
 // const pgSession = require('connect-pg-simple')(session); // will be using sequelize one
 // const flash = require('connect-flash');
 const expressWinston = require('express-winston');
@@ -29,7 +30,7 @@ module.exports = (app, express) => {
   ]
 
   const corsOptions = {
-    origin: ["http://localhost:3000", "http://localhost:5000"],
+    origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 };

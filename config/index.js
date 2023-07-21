@@ -19,6 +19,7 @@ module.exports = {
     STRIPE_PUBLIC: process.env.STRIPE_PKTEST
   },
   HOST: process.env.HOST_URL,
+  FRONTEND: process.env.FRONTEND_HOST,
   REMOVE_BG: process.env.REMOVE_BG_KEY,
   cloudinary: cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
