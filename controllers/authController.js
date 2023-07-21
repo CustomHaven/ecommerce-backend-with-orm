@@ -3,6 +3,7 @@ const AuthService = require("../services/authService");
 const authService = new AuthService(); 
 const jwtGenerator = require('../utils/jwtGenerator');
 const createError = require("http-errors");
+const loggers = require("../loggers");
 
 
 module.exports = {
@@ -22,6 +23,7 @@ module.exports = {
 
     loginRoute: async (req, res, next) => {
         try {
+            loggers.info("WE ARE IN THE LOGGING ROUTE!!");
             req.body.password = String(req.body.password);
 
             const userQuery = await authService.loginByEmail(req.body.email, req.body.password);

@@ -44,22 +44,30 @@ module.exports = (app, express) => {
       }
     },
     // origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
-    credentials: true, //access-control-allow-credentials:true
+    credentials: true, //Access-Control-Allow-Credentials: true
     optionSuccessStatus: 200,
     allowHeaders: ["Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   };
 
-  // app.options("*", cors(corsOptions));
-  app.all("*", cors(corsOptions), (req, res, next) => {
+  app.options("*", cors(corsOptions), (req, res, next) => {
     next();
   });
+  // app.all("*", cors(corsOptions));
   // app.use(cors());
   app.use(cors(corsOptions));
 
   // app.all('*', cors(corsOptions));
 
+  // app.all("*", cors(cookieOptions), (req, res, next) => {
+  //   loggers.info("inside app.all looking at res.header");
+  //   loggers.info(res.header);
+  //   loggers.info("inside app.all DONE!");
 
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  //   next()
+  // });
 
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: true }));
