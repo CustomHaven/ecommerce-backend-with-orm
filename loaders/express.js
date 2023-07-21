@@ -35,8 +35,9 @@ module.exports = (app, express) => {
       loggers.info(req.header());
       loggers.info('INSIDE CORSOPTIONS!!!! req.header("Origin")');
       loggers.info(req.header("Origin"));
+      loggers.info("INSIDE CORSOPTION!!! IT IS DONE!?");
 
-      if (corsWhitelist.indexOf(req.header('Origin')) !== -1) {
+      if (corsWhitelist.indexOf(req) !== -1) {
         callback(null, true); // reflect (enable) the requested origin in the CORS response
       } else {
         callback(null, false); // disable CORS for this request
