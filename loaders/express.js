@@ -52,7 +52,7 @@ module.exports = (app, express) => {
 
   // app.options("*", cors(corsOptions));
   app.all("*", cors(corsOptions), (req, res, next) => {
-    next()
+    next();
   });
   // app.use(cors());
   app.use(cors(corsOptions));
