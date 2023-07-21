@@ -33,6 +33,8 @@ module.exports = (app, express) => {
     origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
+    allowHeaders: ["Content-Type", "Accept"],
+    // "Access-Control-Allow-Origin": FRONTEND
 };
 
   // app.use(cors());
