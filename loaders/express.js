@@ -50,21 +50,16 @@ module.exports = (app, express) => {
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   };
 
-  app.options("*", cors(corsOptions));
+  // app.options("*", cors(corsOptions));
+  app.all("*", cors(cookieOptions), (req, res, next) => {
+    next()
+  });
   // app.use(cors());
   app.use(cors(corsOptions));
 
   // app.all('*', cors(corsOptions));
 
-  app.all('/', (req, res, next) => {
-      loggers.info("inside app.all looking at res.header");
-      loggers.info(res.header);
-      loggers.info("inside app.all DONE!");
 
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next()
-  });
 
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: true }));
