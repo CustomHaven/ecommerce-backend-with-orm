@@ -17,11 +17,7 @@ module.exports = (app, express) => {
     .then(() => loggers.info('Database connection has been established...'))
     .catch(err => loggers.error('Error ' + err));
   
-  if (process.env.NODE_ENV !== "production") {
-    app.use(morgan('dev'));
-  } else {
-    app.use(morgan("combined"));
-  }
+  app.use(morgan('dev'));
   
   app.use(expressWinston.logger(loggers));
 
