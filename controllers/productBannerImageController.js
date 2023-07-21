@@ -1,4 +1,4 @@
-const ProductBannerImageService = require("../services/ProductBannerImageService.js");
+const ProductBannerImageService = require("../services/productBannerImageService");
 const productBannerImageService = new ProductBannerImageService();
 
 exports.getAllProductBannerImages = async (req, res, next) => {
