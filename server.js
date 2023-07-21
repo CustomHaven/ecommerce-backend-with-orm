@@ -23,7 +23,7 @@ async function startServer () {
   if (!module.parent) {
     if (process.env.NODE_ENV !== "production") {
       app.listen(PORT, () => {
-        loggers.info(`Server is listening on port #${PORT} http://localhost:${PORT}/api-docs`);
+        loggers.info(`Server is listening on port #${PORT} http://localhost:${PORT}api-docs`);
       });//
     } else {
       app.listen(PORT, () => {
