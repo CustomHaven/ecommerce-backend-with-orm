@@ -28,7 +28,7 @@ module.exports = (app, express) => {
   const corsWhitelist = [
     "http://localhost:3000"
   ]
-
+  console.log("FRONTEND", FRONTEND);
   const corsOptions = {
     origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
     credentials: true, //access-control-allow-credentials:true
@@ -39,6 +39,12 @@ module.exports = (app, express) => {
 
   // app.use(cors());
   app.use(cors(corsOptions));
+
+  app.all('/', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", ["http://localhost:3000", "http://localhost:5000", FRONTEND]);
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
+  });
 
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: true }));
