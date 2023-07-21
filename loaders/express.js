@@ -35,6 +35,7 @@ module.exports = (app, express) => {
     optionSuccessStatus: 200,
     allowHeaders: ["Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    "Access-Control-Allow-Origin": FRONTEND
   };
 
   app.options("*", cors(corsOptions));
