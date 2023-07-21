@@ -46,7 +46,7 @@ module.exports = (app, express) => {
     // origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
-    allowHeaders: ["Access-Control-Allow-Origin", "Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+    allowHeaders: ["Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   };
 
