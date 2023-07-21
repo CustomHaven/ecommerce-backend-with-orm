@@ -25,30 +25,30 @@ module.exports = (app, express) => {
 
   // app.use(morgan("dev"));
 
-  const corsWhitelist = ["http://localhost:3000", "http://localhost:5000", FRONTEND];
+  // const corsWhitelist = ["http://localhost:3000", "http://localhost:5000", FRONTEND];
 
-  const corsOptions = {
-    origin: (originNow, callback) => {
-      loggers.info("INSIDE CORSOPTIONS!!!! originNow!YES!!!!!");
-      loggers.info(originNow);
-      // loggers.info("INSIDE CORSOPTIONS!!!! originNow!!!!!");
-      // loggers.info(originNow.header());;
+  // const corsOptions = {
+  //   origin: (originNow, callback) => {
+  //     loggers.info("INSIDE CORSOPTIONS!!!! originNow!YES!!!!!");
+  //     loggers.info(originNow);
+  //     // loggers.info("INSIDE CORSOPTIONS!!!! originNow!!!!!");
+  //     // loggers.info(originNow.header());;
 
-      if (corsWhitelist.indexOf(originNow) !== -1) {
-        callback(null, true); // reflect (enable) the requested origin in the CORS response
-      } else {
-        callback(null, false); // disable CORS for this request
-      }
-    },
-    // origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
-    credentials: true, //Access-Control-Allow-Credentials: true
-    optionSuccessStatus: 200,
-    allowHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-  };
-  app.use(cors(corsOptions));
+  //     if (corsWhitelist.indexOf(originNow) !== -1) {
+  //       callback(null, true); // reflect (enable) the requested origin in the CORS response
+  //     } else {
+  //       callback(null, false); // disable CORS for this request
+  //     }
+  //   },
+  //   // origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],
+  //   credentials: true, //Access-Control-Allow-Credentials: true
+  //   optionSuccessStatus: 200,
+  //   allowHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
+  //   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  // };
+  // app.use(cors(corsOptions));
 
-  app.options("*", cors(corsOptions), (req, res, next) => next());
+  // app.options("*", cors(corsOptions), (req, res, next) => next());
   // app.all("*", cors(corsOptions), (req, res, next) => next());
   // app.use(cors());
 
@@ -66,6 +66,23 @@ module.exports = (app, express) => {
 
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: true }));
+
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', FRONTEND);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH');
+  next();
+});
+
+
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
   app.use(express.json());
