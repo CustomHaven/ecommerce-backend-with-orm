@@ -50,10 +50,8 @@ module.exports = (app, express) => {
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   };
 
-  app.options("*", cors(corsOptions), (req, res, next) => {
-    next();
-  });
-  // app.all("*", cors(corsOptions));
+  app.options("*", cors(corsOptions), (req, res, next) => next());
+  app.all("*", cors(corsOptions), (req, res, next) => next());
   // app.use(cors());
   app.use(cors(corsOptions));
 
