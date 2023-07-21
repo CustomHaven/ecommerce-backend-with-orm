@@ -20,9 +20,9 @@ module.exports = async (app, express) => {
   app.use((err, req, res, next) => {
     const { message, httpStatusCode, code, status, statusCode } = err;
     // console.log(err)
-    // loggers.http(status);
-    // loggers.error(message)
-    // loggers.http(err);
+    loggers.http(status);
+    loggers.error(message)
+    loggers.http(err);
     return res.status(status === undefined ? 500 : status).send({ message });
   });
   return app
