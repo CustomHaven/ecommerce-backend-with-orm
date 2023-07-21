@@ -34,7 +34,7 @@ module.exports = (app, express) => {
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
     allowHeaders: ["Content-Type", "Accept"],
-    "Access-Control-Allow-Origin": FRONTEND
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   };
 
   app.options("*", cors(corsOptions));
