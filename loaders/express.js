@@ -51,7 +51,7 @@ module.exports = (app, express) => {
   };
 
   // app.options("*", cors(corsOptions));
-  app.all("*", cors(cookieOptions), (req, res, next) => {
+  app.all("*", cors(corsOptions), (req, res, next) => {
     next()
   });
   // app.use(cors());
