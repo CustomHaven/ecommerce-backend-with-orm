@@ -376,7 +376,6 @@ module.exports = class ProductService {
     async findAllProductsAllImages() {
         try {
             const products = await Product.findAll({
-                attributes: {exclude: ["created_at", "updated_at"]},
                 include: [{
                     model: ProductBannerImage,
                     attributes: {exclude: ["created_at", "updated_at"]}
@@ -387,7 +386,6 @@ module.exports = class ProductService {
             });
             if (products) {
                 // const pro = await Promise.resolve(products.map(async (product) => await ProductService.base64(product.ProductBannerImage.banner_image_data)));
-                // console.log(pro);
                 return products
             }
             throw createError(404, 'Invalid path');

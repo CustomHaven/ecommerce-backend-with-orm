@@ -32,11 +32,11 @@ describe.only('/services/userService.js', function () {
     "../models": mockModels
   });
 
-  console.log('UserService["../models"]');
-  console.log(UserService.findByEmail);
-  console.log('UserService["../models"]');
+  // console.log('UserService["../models"]');
+  // console.log(UserService.findByEmail);
+  // console.log('UserService["../models"]');
 
-  console.log(UserService);
+  // console.log(UserService);
   const userService = new UserService();
   const fakeUser = {  update: sinon.stub() }
 

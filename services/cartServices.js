@@ -110,8 +110,8 @@ module.exports = class CartService {
 
     async abandonedCart(id, update) { // need swagger docs
         try {
-            console.log("ID!", id);
-            console.log("update!", update);
+            // console.log("ID!", id);
+            // console.log("update!", update);
             const cart = await this.findCart(id);
 
             let abandoned;

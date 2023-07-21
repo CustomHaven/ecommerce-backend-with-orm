@@ -25,7 +25,6 @@ module.exports = class PaymentService {
      */
     static async findUserContactDetails(id, userIdRole) {
         try {
-            console.log("user", id, userIdRole);
             const user = await User.findOne({
                 where: {id: id},
                 include: [
@@ -40,7 +39,6 @@ module.exports = class PaymentService {
                     }
                 ]
             });
-            console.log("USER SERVICE", user);
             sameUserCheck(userIdRole, user.id);
             if (!user) {
                 throw createError(404, "No user found");

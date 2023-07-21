@@ -176,11 +176,11 @@ describe.skip('/user', () => {
 
         // response = await agent.post("/auth/login").send(loginDetail).set("Accept", "application/json")
 
-        console.log("controller")
-        console.log(controller.loginRoute)
-        console.log("controller")
-
-        controller.loginRoute()
+        // console.log("controller")
+        // console.log(controller.loginRoute)
+        // console.log("controller")
+// 
+        // controller.loginRoute()
 
           // .set("Cookie", `access-token=${token}`);
         authService = new AuthService();
@@ -190,9 +190,9 @@ describe.skip('/user', () => {
         // authService.findByEmail(loginDetail.email); // even if I call it the calledWith might work but response.status is still 500
       
         // userQuery.resolves(loginAdminUser);
-        console.log("response");
-        console.log(response);
-        console.log("response");
+        // console.log("response");
+        // console.log(response);
+        // console.log("response");
 
         // expect(response).to.have.been.called
 
@@ -206,9 +206,9 @@ describe.skip('/user', () => {
 /*
       it('Should 200 OK when there are users', async () => {
         // const token = createAccessToken();
-        console.log("agent.cookie");
+        // console.log("agent.cookie");
         // console.log(agent.get("/login"));
-        console.log("agent.cookie");
+        // console.log("agent.cookie");
 
         response = await agent.get('/api/v2/users')
                                 .set('Accept', 'application/json')

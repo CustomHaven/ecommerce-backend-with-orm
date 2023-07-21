@@ -92,7 +92,6 @@ module.exports = class ContactDetailService {
             body.user_id = user.id;
             const contact = await ContactDetail.create(body);
             if (!contact) {
-                console.log("IT FAILED?!");
                 throw createError(409, "Failed to save shipping details");
             };
             const shippingDetail = await ContactDetailService.theShippingDetail(contact.id);

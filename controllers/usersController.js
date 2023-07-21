@@ -47,7 +47,6 @@ exports.updateUser = async (req, res, next) => {
 exports.addGuest = async (req, res, next) => {
     try {
         // const { email } = req.body;
-        // console.log(req.body);
         // req.body.role = "customer";
         req.body.is_admin = false;
         req.body.is_guest = true;
@@ -123,6 +122,17 @@ exports.addAdmin = async (req, res, next) => {
         // }
 
         res.status(201).json({ message: "New administrator created 😊 👌", user: userQuery });
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+exports.findAllUsersOrders = async (req, res, next) => {
+    try {
+        const allUserOrders = await userService.findEveryUsersOrders();
+
+        res.status(200).send(allUserOrders);
     } catch (error) {
         next(error);
     }

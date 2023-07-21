@@ -55,20 +55,11 @@ exports.removePaymentDetail = async (req, res, next) => {
 
 exports.masterPay = async (req, res, next) => {
     try {
-        console.log("ARE WE IN THE PAYMENTS???!", req.body);
         const { name_on_card, card_type, card_number, expiry_date, cvv, amount } = req.body;
 
-        console.log("res.locals.userIdRole", res.locals.userIdRole);
-        console.log("req.params.user_id", req.params.user_id);
-        
         const user = await PaymentService.findUserContactDetails(req.params.user_id, res.locals.userIdRole);
-        console.log("USER FIND USER CONTACT DETAILS", user);
         const userName = user.ContactDetail.first_name + " " + user.ContactDetail.last_name;
-        console.log("USERNAME", userName)
-        // console.log(userName);
-        // console.log(user)
-        // console.log(user.ContactDetail.address_line1);
-        
+
         // creating customer in stripe
         const customer = await stripe.customers.create({
             address: {
@@ -81,9 +72,6 @@ exports.masterPay = async (req, res, next) => {
             email: user.ContactDetail.email,
             name: userName.replace(/(^\w{1})|(\s\w{1})/g, (v) => v.toUpperCase())
         });
-
-        console.log("CUSTOMER WORKED??", customer);
-
 
         // preparing payment method
         const paymentMethod = await stripe.paymentMethods.create({
@@ -123,9 +111,6 @@ exports.masterPay = async (req, res, next) => {
         });
         // res.status(201).send(paymentIntent);
 
-
-
-
         // Might probably take paymentIntent to a different route
         const paymentIntentConfirm = await stripe.paymentIntents.confirm(
             paymentIntent.id,
@@ -135,9 +120,7 @@ exports.masterPay = async (req, res, next) => {
         );
 
         // res.status(201).send({ risk_level: paymentIntentConfirm.charges.data[0].outcome.risk_level,
-        //     risk_score: paymentIntentConfirm.charges.data[0].outcome.risk_score, reason: paymentIntentConfirm.charges.data[0].outcome.reason });
-
-        
+        // risk_score: paymentIntentConfirm.charges.data[0].outcome.risk_score, reason: paymentIntentConfirm.charges.data[0].outcome.reason });
 
         // // Maybe make another column saying paid string yes or no
         // // And move this to the other route with paymenyIntents.confirm
@@ -167,8 +150,6 @@ exports.masterPay = async (req, res, next) => {
 exports.acceptPayment = async (req, res, next) => {
     try {
         const { paymentMethod } = req.query;
-
-
         // Might probably take paymentIntent to a different route
         const paymentIntentConfirm = await stripe.paymentIntents.confirm(
             paymentIntent.id,
@@ -176,7 +157,6 @@ exports.acceptPayment = async (req, res, next) => {
                 payment_method: paymentMethod.id
             }
         );
-        
 
         // Maybe make another column saying paid string yes or no
         // And move this to the other route with paymenyIntents.confirm

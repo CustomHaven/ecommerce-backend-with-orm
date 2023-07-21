@@ -12,9 +12,6 @@ exports.findAll = async (req, res, next) => {
 
 exports.newContactDetail = async (req, res, next) => {//
     try {
-
-        // console.log("ARE WE HERE IN NEW CONTACT DETAIL???!",  req.cookies);
-        // console.log("res.locals.userIdRole???? DO WE HAVE?", res.locals.userIdRole);
         const newDetails = await contactService.newDetail(req.params.user_id, req.body, res.locals.userIdRole);
         res.status(201).send(newDetails);
     } catch (error) {

@@ -12,7 +12,7 @@ const supertest = require('supertest');
 const app = require('../../server');
 
 
-console.log("auth-controller.spec")
+// console.log("auth-controller.spec")
 
 const { createAccessToken, customError, fakeId, id, userData, updatedUser, allUsers, loginUser, loginAdminUser, loginDetail } = require("../test-utils/user-helper");
 // const jwtGenerator = require("../../utils/jwtGenerator");
@@ -97,9 +97,9 @@ describe.only("Testing the Auth controller", () => {
             response = await proxy.loginRoute(fakeReq, fakeReq, fakeNext).then((_result) => {
                 result = _result;
             });
-            console.log("result")
-            console.log(result) // undefined
-            console.log("result")
+            // console.log("result")
+            // console.log(result) // undefined
+            // console.log("result")
 
         });
 

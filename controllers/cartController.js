@@ -46,8 +46,6 @@ exports.updateAbandonedCart = async (req, res, next) => {
             throw exception;
         }
         const abandonded = req.body.abandonded.toUpperCase();
-        console.log("check the ID!", Number(req.params.id));
-        console.log("abandonded Worked!!", abandonded);
         const cart = await cartService.abandonedCart(Number(req.params.id), abandonded);
         res.status(201).send(cart);
     } catch (error) {
@@ -57,8 +55,6 @@ exports.updateAbandonedCart = async (req, res, next) => {
 
 exports.updateUserCart = async (req, res, next) => {
     try {
-        console.log("The params!", req.params);
-        console.log("the body", req.body);
         const cart = await cartService.userCart(Number(req.params.id), req.body.user_id);
         res.status(201).send(cart);
     } catch (error) {

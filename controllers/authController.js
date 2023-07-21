@@ -22,7 +22,6 @@ module.exports = {
 
     loginRoute: async (req, res, next) => {
         try {
-            console.log(req.body);
             req.body.password = String(req.body.password);
 
             const userQuery = await authService.loginByEmail(req.body.email, req.body.password);
@@ -68,7 +67,7 @@ module.exports = {
             res.clearCookie("refreshed_token");
             res.clearCookie("token_id");
             // return res.status(200).json({ message: "Successfully logged out 😏 🍀" });
-            return res.sendStatus(205);
+            return res.sendStatus(204);
         } catch (error) {
             next(error);
         }

@@ -21,5 +21,5 @@ function buildProdLogger() {
     ],
   });
 }
-  
+
   module.exports = buildProdLogger;

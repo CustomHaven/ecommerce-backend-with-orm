@@ -69,7 +69,7 @@ describe('/orders', () => {
                                 .set('Accept', 'application/json')
                                 .expect('Content-Type', /json/)
         
-        console.log(response.body)
+        // console.log(response.body);
         expect(response.body).to.be.an('array');
         expect(response.status).to.deep.equal(201);
       })

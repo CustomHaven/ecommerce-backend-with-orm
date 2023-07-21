@@ -8,7 +8,7 @@ module.exports = {
     HOST: process.env.DB_HOST,
     PORT: process.env.DB_PORT,
     DB: process.env.TEST === "test" ? process.env.DB_DB_TESTING : process.env.DB_DB,
-    DB_URL: process.env.DB_URL_BIT
+    DB_URL: process.env.DB_SUP_URL
   },
   TOKEN: {
     ACCESS_TOKEN: process.env.ACCESS_TOKEN_SECRET,

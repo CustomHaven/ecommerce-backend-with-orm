@@ -14,36 +14,3 @@ module.exports = (app) => {
 
     return router;
 }
-
-/*
-{
-  "product": {
-    "source": "string",
-    "product_name": "string",
-    "type": "string",
-    "description": "string",
-    "price": 50.40,
-    "quantity": 3000
-  },
-  "product_images": [
-    {
-      "image_name": "string",
-      "image_data": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-    },
-    {
-      "image_name": "string2",
-      "image_data": "https://www.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/advice/maps-satellite-images/satellite-image-of-globe.jpg"
-    },
-    {
-      "image_name": "string3",
-      "image_data": "https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg"
-    }
-  ]
-}
-
-
-{
-  "image_name": "string4",
-  "image_data": "https://i.ytimg.com/vi/u6m8lgWG_4M/maxresdefault.jpg"
-}
-*/

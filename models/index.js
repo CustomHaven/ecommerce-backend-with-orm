@@ -8,6 +8,27 @@ const Models = {};
 // db.query()
 // select * from pg_sequences;
 db.beforeSync(async () => {
+
+  // Delete all tables for help with connecting correctly to the production DB address!
+  // await db.query("DROP TABLE IF EXISTS users CASCADE");
+  // await db.query("DROP TABLE IF EXISTS roles CASCADE");
+  // await db.query("DROP TABLE IF EXISTS refresh_tokens CASCADE");
+  // await db.query("DROP TABLE IF EXISTS user_roles CASCADE");
+  // await db.query("DROP TABLE IF EXISTS contact_details CASCADE");
+  // await db.query("DROP TABLE IF EXISTS products CASCADE");
+  // await db.query("DROP TABLE IF EXISTS product_images CASCADE");
+  // await db.query("DROP TABLE IF EXISTS orders CASCADE");
+  // await db.query("DROP TABLE IF EXISTS order_list CASCADE");
+  // await db.query("DROP TABLE IF EXISTS carts CASCADE");
+  // await db.query("DROP TABLE IF EXISTS cart_list CASCADE");
+  // await db.query("DROP TABLE IF EXISTS payment_details CASCADE");
+  // await db.query("DROP TABLE IF EXISTS session CASCADE");
+  // await db.query("DROP TABLE IF EXISTS product_banner_images CASCADE");
+
+  // await db.query("DROP SEQUENCE IF EXISTS order_seq CASCADE");
+  // await db.query("DROP SEQUENCE IF EXISTS user_seq CASCADE");
+  // await db.query("DROP SEQUENCE IF EXISTS prod_seq CASCADE");
+
   await db.query('CREATE SEQUENCE IF NOT EXISTS user_seq INCREMENT 1');
   await db.query('CREATE SEQUENCE IF NOT EXISTS prod_seq INCREMENT 1');
   await db.query('CREATE SEQUENCE IF NOT EXISTS order_seq INCREMENT 1');
@@ -33,6 +54,6 @@ Object.keys(Models).forEach(modelName => {
 
 
 Models.sequelize = db.sync({ alter: true });
-Models.Sequelize = Sequelize
+Models.Sequelize = Sequelize;
 
 module.exports = Models;

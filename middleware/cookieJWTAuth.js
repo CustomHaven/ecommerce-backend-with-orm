@@ -11,7 +11,7 @@ const jwtVerify = (cookie, res, tokenType) => {
         data = jwt.verify(cookie, TOKEN.ACCESS_TOKEN); 
     }
 
-    console.log(data);
+    // console.log(data);
 
     res.locals.userIdRole = {
         id: data.id,
@@ -27,7 +27,7 @@ const jwtVerify = (cookie, res, tokenType) => {
 
 const cookieJwtAuth = (req, res, next) => {
     try {
-        console.log("refresh_token??", req.cookies.refreshed_token);
+        // console.log("refresh_token??", req.cookies.refreshed_token);
         // console.log("req.token in cookie jwtauth full object of cookies", req.cookies);
         // console.log("req.token in cookie jwtauth access_token?", req.cookies.access_token);
         // console.log("req.token in cookie jwtauth access_token?", req.cookies.access_token);
@@ -55,7 +55,7 @@ const cookieJwtAuth = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
 
-    console.log("isADMIN!")
+    // console.log("isADMIN!");
     // const tokenAccess = req.cookies.access_token ? req.cookies.access_token : null;
     // const tokenRefresh = req.cookies.refreshed_token ? req.cookies.refreshed_token : null;
 

@@ -11,7 +11,7 @@ const process = require("process");
 //   // return date.format('YYYY-MM-DD HH:mm:ss.SSS Z');
 //   return date.format('YYYY-MM-DD HH:mm:ss Z');
 // };
-
+// console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
 let db;
 if (process.env.NODE_ENV === "production") {
   db = new Sequelize(DB.DB_URL, {

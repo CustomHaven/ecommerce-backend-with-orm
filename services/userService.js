@@ -1,6 +1,7 @@
+const db = require('../db');
 const Models = require('../models');
 const bcrypt = require('bcryptjs');
-const { User, ContactDetail, Role, RefreshToken } = Models;
+const { User, ContactDetail, Role, RefreshToken, Order } = Models;
 const createError = require("http-errors");
 const sameUserCheck = require("../utils/sameUserCheck");
 
@@ -166,7 +167,6 @@ module.exports = class UserService {
           through: { attributes: [] }
         }
       });
-      // console.log(user.password);
       if (!user) {
         throw new createError(404, "User not found");
       }
@@ -312,15 +312,53 @@ module.exports = class UserService {
       throw err
     }
   }
+
+  async findEveryUsersOrders() {
+    try {
+      const userOrders = await User.findAll({
+        attributes: ["id", "email_campaign"],
+        group: ["User.id"],
+        include: {
+          model: Order,
+          attributes: [[db.fn("count", db.col("Orders.id")), "Total Orders"], [db.fn("sum", db.col("Orders.final_price")), "Total Spent"]] 
+        },
+        raw: true
+      });
+
+      const users = await User.findAll({
+        attributes: ["id"],
+        include: {
+          model: ContactDetail,
+          attributes: ["first_name", "last_name"]
+        }
+      });
+
+      const usersOrderPerson = userOrders.map((user, i) => {
+        const userObject = users.find(u => {
+          if (u.id === user.id) {
+            return u;
+          }
+        });
+
+        return {
+          ...user,
+          names: userObject.ContactDetails[0] ? userObject.ContactDetails[0] : null
+        }
+      });
+
+      if (userOrders) {
+        // return usersOrderPerson;
+        return usersOrderPerson.map(obj => ({
+          id: obj.id,
+          email_campaign: obj.email_campaign,
+          totalOrders: obj["Orders.Total Orders"],
+          totalSpent: obj["Orders.Total Spent"],
+          names: obj.names,
+        })).sort((a,b) => parseInt(a.id.replace(/user-/, "")) - parseInt(b.id.replace(/user-/, "")));
+      }
+      throw createError(500, "WRONG!");
+    } catch (error) {
+      throw error;
+    }
+  }
 }
-
-
-/*
-
-SELECT users.email AS email, roles.name AS rolename
-FROM users
-JOIN user_roles ON users.id = user_roles.user_id
-JOIN roles ON roles.id = user_roles.role_id
-WHERE users.id = 'user-9';
-
-    */

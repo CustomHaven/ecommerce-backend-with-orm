@@ -1,3 +1,5 @@
+-- Rather than creating tables from this file use "npm run goDB" to create the DB tables through Sequelize in "models/index.js" 
+
 CREATE SEQUENCE IF NOT EXISTS user_seq
 INCREMENT 1;
 
@@ -6,6 +8,11 @@ INCREMENT 1;
 
 CREATE SEQUENCE IF NOT EXISTS order_seq
 INCREMENT 1;
+
+CREATE TABLE IF NOT EXISTS roles (
+    id bigserial NOT NULL PRIMARY KEY,
+    name varchar(10)
+);
 
 CREATE TABLE IF NOT EXISTS users (
     id TEXT NOT NULL PRIMARY KEY DEFAULT concat_ws(' ', 'user', nextval('user_seq')),

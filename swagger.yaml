@@ -247,6 +247,99 @@ paths:
           description: Fail
       tags:
         - Users
+  /api/v2/users/email/{email}:
+    summary: Find user by Email
+    description: Find a user by their email
+    get:
+      summary: Fetch single user
+      description: Fetch single user through their email
+      operationId: fetch_by_email
+      parameters:
+        - name: email
+          in: path
+          description: The email of a user
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "user 4", "first_name": "john", "last_name": "snow", "email": "johnsnow@example.com", "password": "johnsnow", "created": "03:03:2013 03:33", "modified": "01:05:2022 09:21" }'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                    "message": "User not found"
+                    }
+          description: Fail
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                    "message": "User already exists"
+                    }
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Users
+  /api/v2/users/all-users-orders:
+    summary: Fetch all users orders
+    description: Fetch and see all users orders Administrator is required
+    get:
+      security:
+        - cookieAuth: []
+      summary: Fetch all Users Orders
+      description: Shows all Users orders an Administrator is required for this route
+      operationId: fetch_all_users_orders
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "user 4", "first_name": "john", "last_name": "snow", "email": "johnsnow@example.com", "password": "johnsnow", "created": "03:03:2013 03:33", "modified": "01:05:2022 09:21" }'
+          description: Success
+        '409':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                    "message": "User already exists"
+                    }
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Users
   /api/v2/users:
     summary: All users
     description: All accounts
@@ -648,6 +741,8 @@ paths:
     summary: Get the user and their contact detail
     description: Gets a user and their contact detail
     get:
+      security:
+        - cookieAuth: []
       summary: User with their contact detail (viewed only by the user)
       description: Specific User and their contact details
       parameters:
@@ -2473,6 +2568,43 @@ paths:
                 success:
                   value: '[{"id": "order 1", "user_id": "user 2", "cart_id": 1, "status_shipping": "success", "final_price": 150.42, "total_items": 18, "tracking_id": "some good RM id", "created": "07-09-2021", "modified": "15-03-2022"}, {"id": "order 2", "user_id": "user 3", "cart_id": 3, "status_shipping": "success", "final_price": 26.74, "total_items": 13, "tracking_id": "some good RM id", "created": "08-09-2021", "modified": "15-01-2022"}, {"id": "order 3", "user_id": "user 3", "cart_id": 4, "status_shipping": "pending", "final_price": 76.73, "total_items": 12, "tracking_id": "not available", "created": "08-08-2022", "modified": "08-08-2022"}]'
           description: Success
+      tags:
+        - Orders
+  /api/v2/orders/best-selling-products:
+    summary: Most Popular Products
+    description: Ranking all the most popular products
+    get:
+      summary: Most Popular Products
+      description: Most popular products in the store
+      operationId: best_popular_products
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '[{"Product_Name": "Cargo Tech","Sales": "120"},{"Product_Name": "Red Pants","Sales": "105"},{"Product_Name": "Straight Leg Cargo","Sales": "90"},{"Product_Name": "Work Pants","Sales": "75"},{"Product_Name": "Thick & Warm","Sales": "63"},{"Product_Name": "Cargo Pants","Sales": "46"},{"Product_Name": "Camping Jacket","Sales": "30"},{"Product_Name": "Knit Tank","Sales": "15"},{"Product_Name": "Sweatpants","Sales": "6"},{"Product_Name": "Winter Cotton","Sales": "5"},{"Product_Name": "Autumn Casual Jacket","Sales": "4"},{"Product_Name": "Winter Fur","Sales": "3"}]'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Not found"
+                    }
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
       tags:
         - Orders
   /api/v2/orders/order-fulfilled:
