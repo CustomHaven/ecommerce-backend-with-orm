@@ -20,7 +20,7 @@ module.exports = (app, express) => {
   if (process.env.NODE_ENV !== "production") {
     app.use(morgan('dev'));
   } else {
-    app.use(morgan("tiny"));
+    app.use(morgan("combined"));
   }
   
   app.use(expressWinston.logger(loggers));
