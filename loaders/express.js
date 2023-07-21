@@ -28,16 +28,16 @@ module.exports = (app, express) => {
   const corsWhitelist = ["http://localhost:3000", "http://localhost:5000", FRONTEND];
 
   const corsOptions = {
-    origin: (req, callback) => {
-      loggers.info("INSIDE CORSOPTIONS!!!! req");
-      loggers.info(req);
-      loggers.info("INSIDE CORSOPTIONS!!!! req.header");
-      loggers.info(req.header());
-      loggers.info('INSIDE CORSOPTIONS!!!! req.header("Origin")');
-      loggers.info(req.header("Origin"));
-      loggers.info("INSIDE CORSOPTION!!! IT IS DONE!?");
+    origin: (originNow, callback) => {
+      loggers.info("INSIDE CORSOPTIONS!!!! originNow!YES!!!!!");
+      loggers.info(originNow);
+      // loggers.info("INSIDE CORSOPTIONS!!!! originNow.header!YES!!!!!");
+      // loggers.info(originNow.header());
+      // loggers.info('INSIDE CORSOPTIONS!!!! originNow.header("Origin")!YES!!!!!');
+      // loggers.info(originNow.header("Origin"));
+      // loggers.info("INSIDE CORSOPTION!!! IT IS DONE!?");
 
-      if (corsWhitelist.indexOf(req) !== -1) {
+      if (corsWhitelist.indexOf(originNow) !== -1) {
         callback(null, true); // reflect (enable) the requested origin in the CORS response
       } else {
         callback(null, false); // disable CORS for this request
