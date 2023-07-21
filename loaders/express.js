@@ -29,6 +29,10 @@ module.exports = (app, express) => {
 
   const corsOptions = {
     origin: (req, callback) => {
+      loggers.info("req", req);
+      loggers.info("req.header", req.header());
+      loggers.info('req.header("Origin")', req.header("Origin"));
+
       if (corsWhitelist.indexOf(req.header('Origin')) !== -1) {
         callback(null, true); // reflect (enable) the requested origin in the CORS response
       } else {
