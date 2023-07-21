@@ -56,6 +56,16 @@ module.exports = (app, express) => {
 
   // app.all('*', cors(corsOptions));
 
+  app.all('/', (req, res, next) => {
+      loggers.info("inside app.all looking at res.header");
+      loggers.info(res.header);
+      loggers.info("inside app.all DONE!");
+
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next()
+  });
+
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: true }));
 
