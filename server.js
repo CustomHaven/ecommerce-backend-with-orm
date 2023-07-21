@@ -27,7 +27,7 @@ async function startServer () {
       });//
     } else {
       app.listen(PORT, () => {
-        loggers.info(`Server is listening on port ${HOST}#${PORT}`);
+        loggers.info(`Server is listening on port ${HOST}/api-docs`);
       });//
     }
   }
