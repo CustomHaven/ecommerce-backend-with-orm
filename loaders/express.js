@@ -54,11 +54,7 @@ module.exports = (app, express) => {
   // app.use(cors());
   app.use(cors(corsOptions));
 
-  app.all('/', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", ["http://localhost:3000", "http://localhost:5000", FRONTEND]);
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next()
-  });
+  app.all('/', cors(corsOptions));
 
   // app.use(bodyParser.json());
   // app.use(bodyParser.urlencoded({ extended: true }));
