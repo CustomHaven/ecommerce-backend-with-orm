@@ -32,7 +32,6 @@ module.exports = (app, express) => {
         callback(null, { origin: false }); // disable CORS for this request
       }
     },
-    preflightContinue: true,
     credentials: true, //Access-Control-Allow-Credentials: true
     optionsSuccessStatus: 200,
     allowedHeaders: ["Content-Type", "Accept"],
