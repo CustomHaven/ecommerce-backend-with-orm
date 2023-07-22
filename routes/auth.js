@@ -2,7 +2,6 @@ const authController = require('../controllers/authController');
 const { cookieJwtAuth } = require("../middleware/cookieJWTAuth");
 const validInfo = require("../middleware/validInfo.js");
 const router = require('express').Router();
-const corsMiddleware = require("../cors");
 
 module.exports = (app) => {
     app.use("/api/v2/auth", router);
