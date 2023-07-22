@@ -86,7 +86,9 @@ module.exports = (app, express) => {
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
   app.options("*", corsMiddleware);
-  app.all("*", corsMiddleware);
+  app.all("*", corsMiddleware, (req, res, next) => {
+    loggers.info("all routes hit!!!!!");
+  });
   app.use(corsMiddleware);
   // app.use(cors({
   //   origin: FRONTEND

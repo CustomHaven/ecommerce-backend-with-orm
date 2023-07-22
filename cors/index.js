@@ -10,7 +10,6 @@ const corsOptions = {
     //     loggers.info(originReq); // the origin website name
     //     if (corsWhitelist.indexOf(originReq) !== -1) {
     //         // return callback(null, true); // reflect (enable) the requested origin in the CORS response
-    //         return true;
     //     } else {
     //         return callback(null, false); // disable CORS for this request
     //     }
