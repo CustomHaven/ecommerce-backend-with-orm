@@ -48,7 +48,7 @@ module.exports = (app, express) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    domain: HOST
+    domain: FRONTEND
   }
 
   app.use(cookieParser(cookieOptions));
