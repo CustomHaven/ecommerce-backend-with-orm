@@ -1,4 +1,5 @@
 const cors = require("cors");
+const loggers = require("../loggers");
 const { FRONTEND } = require("../config");
 
 const corsWhitelist = ["http://localhost:3000", "http://localhost:5000", FRONTEND];
