@@ -9,10 +9,10 @@ const corsOptions = {
         loggers.info("INSIDE CORSOPTIONS!!!! originReq!YES!!!!!");
         loggers.info(originReq); // the origin website name
         if (corsWhitelist.indexOf(originReq) !== -1) {
-            callback(null, true);
+            callback(null, { origin: true });
             // return callback(null, true); // reflect (enable) the requested origin in the CORS response
         } else {
-            callback(null, false); // disable CORS for this request
+            callback(null, { origin: false }); // disable CORS for this request
         }
     },
     // origin: ["http://localhost:3000", FRONTEND],
