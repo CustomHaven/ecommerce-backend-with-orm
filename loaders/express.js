@@ -1,9 +1,9 @@
-const cors = require('cors');
+const corsMiddleware = require('../cors');
 const morgan = require('morgan');
 // const session = require('express-session');
 // const { SESS } = require('../config');
 const db = require('../db');
-const { FRONTEND } = require("../config")
+const { FRONTEND } = require("../config");
 // const pgSession = require('connect-pg-simple')(session); // will be using sequelize one
 // const flash = require('connect-flash');
 const expressWinston = require('express-winston');
@@ -72,18 +72,20 @@ module.exports = (app, express) => {
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', FRONTEND);
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', FRONTEND);
+//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//   res.header('Access-Control-Allow-Credentials', true);
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH');
+//   next();
+// });
 
 
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
+
+  app.use(corsMiddleware);
 
   app.use(express.json());
 

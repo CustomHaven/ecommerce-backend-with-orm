@@ -1,3 +1,4 @@
+const corsMiddleWare = require("../cors");
 const authRouter = require("./auth");
 const userRouter = require("./users");
 const contactRouter = require("./contact_details");
@@ -12,7 +13,7 @@ const paymentRouter = require("./payment");
 // const bgRemoverRouter = require("./bgRemover");
 
 module.exports = (app) => {
-
+  app.use(corsMiddleWare)
   authRouter(app);
   userRouter(app);
   contactRouter(app);
