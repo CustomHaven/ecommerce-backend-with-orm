@@ -11,9 +11,9 @@ const corsOptions = {
         // loggers.info(originNow.header());;
     // 
         if (corsWhitelist.indexOf(originNow) !== -1) {
-        callback(null, true); // reflect (enable) the requested origin in the CORS response
+            return callback(null, true); // reflect (enable) the requested origin in the CORS response
         } else {
-        callback(null, false); // disable CORS for this request
+            return callback(null, false); // disable CORS for this request
         }
     },
     // origin: ["http://localhost:3000", "http://localhost:5000", FRONTEND],

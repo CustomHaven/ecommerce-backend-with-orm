@@ -23,7 +23,7 @@ module.exports = (app, express) => {
 
   app.set('view engine', 'ejs');
 
-  // app.use(morgan("dev"));
+  app.use(morgan("dev"));
 
   // const corsWhitelist = ["http://localhost:3000", "http://localhost:5000", FRONTEND];
 
@@ -84,8 +84,8 @@ module.exports = (app, express) => {
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-  app.options("*", corsMiddleware);
-  app.use(corsMiddleware);
+  app.options("*", corsMiddleware());
+  app.use(corsMiddleware());
 
   app.use(express.json());
 
