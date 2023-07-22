@@ -34,7 +34,8 @@ module.exports = (app, express) => {
     },
     credentials: true, //Access-Control-Allow-Credentials: true
     optionsSuccessStatus: 200,
-    allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
+    allowedHeaders: ["Content-Type", "Accept"],
+    // allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
   };
 
