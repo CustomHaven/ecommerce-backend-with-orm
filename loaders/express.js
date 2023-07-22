@@ -27,15 +27,14 @@ module.exports = (app, express) => {
   const corsOptions = {
     origin: (originReq, callback) => { // Access-Control-Allow-Origin
       if (corsWhitelist.indexOf(originReq) !== -1) {
-        callback(null, { origin: originReq });
+        callback(null, { origin: true });
       } else {
         callback(null, { origin: false }); // disable CORS for this request
       }
     },
     credentials: true, //Access-Control-Allow-Credentials: true
     optionsSuccessStatus: 200,
-    allowedHeaders: ["Content-Type", "Accept"],
-    // allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
+    allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
   };
 
@@ -48,7 +47,7 @@ module.exports = (app, express) => {
   const cookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: true
+    sameSite: process.env.NODE_ENV === "production" ? "none" : true
   }
 
   app.use(cookieParser(cookieOptions));
