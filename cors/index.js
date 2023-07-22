@@ -14,7 +14,8 @@ const corsOptions = {
     //         return callback(null, false); // disable CORS for this request
     //     }
     // },
-    origin: ["http://localhost:3000", FRONTEND],
+    // origin: ["http://localhost:3000", FRONTEND],
+    origin: "https://custom-haven-ecommerce.vercel.app",
     credentials: true, //Access-Control-Allow-Credentials: true
     optionSuccessStatus: 200,
     allowHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
