@@ -29,7 +29,7 @@ module.exports = (app, express) => {
       if (corsWhitelist.indexOf(originReq) !== -1) {
         callback(null, { origin: true });
       } else {
-        callback(null, { origin: false }); // disable CORS for this request
+        callback(null, false); // disable CORS for this request
       }
     },
     credentials: true, //Access-Control-Allow-Credentials: true
