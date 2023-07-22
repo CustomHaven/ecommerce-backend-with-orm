@@ -19,7 +19,7 @@ const corsOptions = {
     // origin: "https://custom-haven-ecommerce.vercel.app",
     credentials: true, //Access-Control-Allow-Credentials: true
     optionsSuccessStatus: 200,
-    preflightContinue: true,
+    // preflightContinue: true,
     allowHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
 };
