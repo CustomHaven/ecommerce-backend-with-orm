@@ -22,9 +22,9 @@ module.exports = (app, express) => {
   
   app.use(expressWinston.logger(loggers));
 
-  app.set('view engine', 'ejs');
+  // app.set('view engine', 'ejs');
 
-  app.use(morgan("dev"));
+  // app.use(morgan("dev"));
 
   // const corsWhitelist = ["http://localhost:3000", "http://localhost:5000", FRONTEND];
 
@@ -85,15 +85,18 @@ module.exports = (app, express) => {
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-  app.options("*", corsMiddleware, (req, res, next) => {
-    loggers.info("OPTIONS GIVE ME PASSING IT");
-    next();
-  });
+  // app.options("*", corsMiddleware, (req, res, next) => {
+  //   loggers.info("OPTIONS GIVE ME PASSING IT");
+  //   next();
+  // });
   // app.all("*", corsMiddleware, (req, res, next) => {
   //   loggers.info("all routes hit!!!!!");
   //   next();
   // });
   app.use(corsMiddleware);
+
+  app.set('view engine', 'ejs');
+
   // app.use(cors({
   //   origin: FRONTEND
   // }));
