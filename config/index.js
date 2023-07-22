@@ -18,7 +18,7 @@ module.exports = {
     STRIPE_SECRET: process.env.STRIPE_SKTEST,
     STRIPE_PUBLIC: process.env.STRIPE_PKTEST
   },
-  HOST: process.env.HOST_URL,
+  HOST: process.env.NODE_ENV === "production" ? process.env.HOST_URL : process.env.HOST_LOCAL_URL,
   FRONTEND: process.env.FRONTEND_HOST,
   REMOVE_BG: process.env.REMOVE_BG_KEY,
   cloudinary: cloudinary.config({
