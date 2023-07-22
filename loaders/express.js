@@ -22,7 +22,7 @@ module.exports = (app, express) => {
   
   app.use(expressWinston.logger(loggers));
 
-  // app.set('view engine', 'ejs');
+  app.set('view engine', 'ejs');
 
   // app.use(morgan("dev"));
 
@@ -94,8 +94,6 @@ module.exports = (app, express) => {
   //   next();
   // });
   app.use(corsMiddleware);
-
-  app.set('view engine', 'ejs');
 
   // app.use(cors({
   //   origin: FRONTEND
