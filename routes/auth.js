@@ -6,7 +6,8 @@ const corsMiddleware = require("../cors");
 
 module.exports = (app) => {
     app.use("/api/v2/auth", router);
-    
+
+    router.all("*",corsMiddleware, (req, res, next) => next());
     router.post("/users", authController.practise);
 
     router.post("/login", validInfo, authController.loginRoute);
