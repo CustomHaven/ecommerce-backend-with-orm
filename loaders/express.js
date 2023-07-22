@@ -1,4 +1,5 @@
 const corsMiddleware = require('../cors');
+const cors = require("cors");
 const morgan = require('morgan');
 // const session = require('express-session');
 // const { SESS } = require('../config');
@@ -84,8 +85,10 @@ module.exports = (app, express) => {
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-  app.options("*", corsMiddleware, (req, res, next) => { next(); });
-  app.use(corsMiddleware);
+  app.options("*", corsMiddleware);
+  app.use(cors({
+    origin: FRONTEND
+  }));
 
   app.use(express.json());
 

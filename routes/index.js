@@ -13,7 +13,7 @@ const paymentRouter = require("./payment");
 // const bgRemoverRouter = require("./bgRemover");
 
 module.exports = (app) => {
-  app.use(corsMiddleWare)
+  // app.use(corsMiddleWare)
   authRouter(app);
   userRouter(app);
   contactRouter(app);
