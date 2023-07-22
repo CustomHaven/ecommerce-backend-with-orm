@@ -56,8 +56,8 @@ module.exports = {
             loggers.info("LOGIN FINSIHED!!!!!!!!!!!!!!!!!!!!!");
 
             return res
-                .cookie("token_id", refreshToken, { origin: true, domain: FRONTEND, sameSite: "none", httpOnly: true, secure: process.env.NODE_ENV === "production" })
-                .cookie("access_token", token, { origin: true, domain: FRONTEND, sameSite: "none", httpOnly: true, secure: process.env.NODE_ENV === "production" })
+                .cookie("token_id", refreshToken, { origin: true, domain: "https://custom-haven-ecommerce.vercel.app", sameSite: "none", httpOnly: true, secure: process.env.NODE_ENV === "production" })
+                .cookie("access_token", token, { origin: true, domain: "https://custom-haven-ecommerce.vercel.app", sameSite: "none", httpOnly: true, secure: process.env.NODE_ENV === "production" })
                 .status(200)
                 .json({ message: "Logged in successfully 😊 👌", user, token, refresh_token: refreshToken });
 
@@ -112,8 +112,8 @@ module.exports = {
             loggers.info("REFRESH FINSIHED!!!!!!!!!!!!!!!!!!!!!");
 
             return res
-                .cookie("token_id", tokenId, { origin: true, httpOnly: true, domain: FRONTEND, sameSite: "none", secure: process.env.NODE_ENV === "production" })
-                .cookie("refreshed_token", token, { origin: true, httpOnly: true, domain: FRONTEND, sameSite: "none", secure: process.env.NODE_ENV === "production" })
+                .cookie("token_id", tokenId, { origin: true, httpOnly: true, domain: "https://custom-haven-ecommerce.vercel.app", sameSite: "none", secure: process.env.NODE_ENV === "production" })
+                .cookie("refreshed_token", token, { origin: true, httpOnly: true, domain: "https://custom-haven-ecommerce.vercel.app", sameSite: "none", secure: process.env.NODE_ENV === "production" })
                 .status(200).json({ user: userDone, token: getToken.token, refresh_token: tokenId });
 
             // res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
