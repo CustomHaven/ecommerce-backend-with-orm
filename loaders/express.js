@@ -3,7 +3,7 @@ const morgan = require('morgan');
 // const session = require('express-session');
 // const { SESS } = require('../config');
 const db = require('../db');
-const { FRONTEND } = require("../config");
+const { FRONTEND, HOST } = require("../config");
 // const pgSession = require('connect-pg-simple')(session); // will be using sequelize one
 // const flash = require('connect-flash');
 const expressWinston = require('express-winston');
@@ -48,7 +48,7 @@ module.exports = (app, express) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
-    domain: FRONTEND
+    domain: HOST
   }
 
   app.use(cookieParser(cookieOptions));
