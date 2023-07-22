@@ -27,7 +27,7 @@ module.exports = (app, express) => {
   const corsOptions = {
     origin: (originReq, callback) => { // Access-Control-Allow-Origin
       if (corsWhitelist.indexOf(originReq) !== -1) {
-        callback(null, { origin: true });
+        callback(null, { origin: originReq });
       } else {
         callback(null, { origin: false }); // disable CORS for this request
       }
