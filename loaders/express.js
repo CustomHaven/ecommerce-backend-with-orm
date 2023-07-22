@@ -84,9 +84,8 @@ module.exports = (app, express) => {
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
-
-  app.use(corsMiddleware);
   app.options("*", corsMiddleware);
+  app.use(corsMiddleware);
 
   app.use(express.json());
 
