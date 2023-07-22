@@ -21,7 +21,7 @@ const corsOptions = {
     optionsSuccessStatus: 200,
     preflightContinue: true,
     allowHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept"],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
 };
 
 module.exports = cors(corsOptions);
