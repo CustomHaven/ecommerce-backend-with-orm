@@ -56,7 +56,7 @@ module.exports = {
             loggers.info("LOGIN FINSIHED!!!!!!!!!!!!!!!!!!!!!");
             // __cf_bm
             return res
-                .cookie("__cf_bm", "", { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                // .cookie("__cf_bm", "", { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .cookie("token_id", refreshToken, { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 10000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .cookie("access_token", token, { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 10000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .status(200)
@@ -124,7 +124,7 @@ module.exports = {
             loggers.info("expirationTime DONE!!!!!!!!!!!");
 
             return res
-                .cookie("__cf_bm", "", { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                // .cookie("__cf_bm", "", { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .cookie("token_id", tokenId, { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: expirationTime * 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .cookie("refreshed_token", token, { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: expirationTime * 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .status(200).json({ user: userDone, token: getToken.token, refresh_token: tokenId });
