@@ -56,8 +56,8 @@ module.exports = {
             loggers.info("LOGIN FINSIHED!!!!!!!!!!!!!!!!!!!!!");
 
             return res
-                .cookie("token_id", refreshToken, { origin: true, domain: FRONTEND, sameSite: process.env.NODE_ENV === "production" ? "none" : "", httpOnly: true, secure: process.env.NODE_ENV === "production" ? true : true })
-                .cookie("access_token", token, { origin: true, domain: FRONTEND, sameSite: "none", httpOnly: true, secure: process.env.NODE_ENV === "production" ? true : true })
+                .cookie("token_id", refreshToken, { origin: true, httpOnly: true, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                .cookie("access_token", token, { origin: true, httpOnly: true, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
                 .status(200)
                 .json({ message: "Logged in successfully 😊 👌", user, token, refresh_token: refreshToken });
 
