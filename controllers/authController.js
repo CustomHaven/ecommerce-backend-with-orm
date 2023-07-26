@@ -105,6 +105,10 @@ module.exports = {
 
             const expirationTime = Math.floor(Math.abs(new Date() - getToken.expiry_date) / 1000);
 
+            loggers.info("expirationTime START!!!!!!!!!!");
+            loggers.info(expirationTime);
+            loggers.info("expirationTime DONE!!!!!!!!!!!");
+
             const token = jwtGenerator(userDone, "refresh", expirationTime); 
 
             loggers.info("REFRESH LOOK!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -113,6 +117,10 @@ module.exports = {
             loggers.info("process.env.NODE_ENV!! LOOK");
             loggers.info(process.env.NODE_ENV);
             loggers.info("REFRESH FINSIHED!!!!!!!!!!!!!!!!!!!!!");
+
+            loggers.info("expirationTime START!!!!!!!!!!");
+            loggers.info(expirationTime);
+            loggers.info("expirationTime DONE!!!!!!!!!!!");
 
             return res
                 .cookie("token_id", tokenId, { origin: true, httpOnly: true, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
