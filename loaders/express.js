@@ -47,7 +47,7 @@ module.exports = (app, express) => {
   const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production" ? true : false,
-    sameSite: process.env.NODE_ENV === "production" ? "Lone" : "Lax",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
     // domain: FRONTEND
   }
 
