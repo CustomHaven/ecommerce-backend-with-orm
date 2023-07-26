@@ -79,8 +79,13 @@ module.exports = {
             loggers.info(req.cookies.refreshed_token);
             loggers.info("req.cookies.refreshed_token END! req.cookies.refreshed_token END! req.cookies.refreshed_token END!!!");
 
+
+            loggers.info("req.cookies.access_token START! req.cookies.access_token START! req.cookies.access_token START!!!");
+            loggers.info(req.cookies.access_token);
+            loggers.info("req.cookies.access_token END! req.cookies.access_token END! req.cookies.access_token END!!!");
+
             loggers.info("LOGOUT!! FINSH!!!");
-            if (res.cookies.access_token) {
+            if (req.cookies.access_token) {
                 res.clearCookie("access_token");
             }
             await AuthService.removeRefreshToken(req.cookies.token_id);
