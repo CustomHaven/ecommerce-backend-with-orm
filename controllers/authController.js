@@ -80,7 +80,9 @@ module.exports = {
             loggers.info("req.cookies.refreshed_token END! req.cookies.refreshed_token END! req.cookies.refreshed_token END!!!");
 
             loggers.info("LOGOUT!! FINSH!!!");
-            res.clearCookie("access_token");
+            if (res.cookies.access_token) {
+                res.clearCookie("access_token");
+            }
             await AuthService.removeRefreshToken(req.cookies.token_id);
             res.clearCookie("refreshed_token");
             res.clearCookie("token_id");
@@ -101,7 +103,9 @@ module.exports = {
 
     refreshRoute: async (req, res, next) => {
         try {
-            res.clearCookie("access_token");
+            if (res.cookies.access_token) {
+                res.clearCookie("access_token");
+            }
             const tokenId = req.body.refresh_token;
 
             const getToken = await AuthService.findToken(tokenId);
