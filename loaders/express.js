@@ -34,8 +34,8 @@ module.exports = (app, express) => {
     },
     credentials: true, //Access-Control-Allow-Credentials: true
     optionsSuccessStatus: 200,
-    allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
+    allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
   };
 
   app.use(cors(corsOptions));
@@ -47,8 +47,8 @@ module.exports = (app, express) => {
   const cookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
-    domain: FRONTEND
+    // sameSite: "none",
+    // domain: FRONTEND
   }
 
   app.use(cookieParser(cookieOptions));
