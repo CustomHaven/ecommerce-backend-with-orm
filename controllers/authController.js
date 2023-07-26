@@ -103,9 +103,7 @@ module.exports = {
 
     refreshRoute: async (req, res, next) => {
         try {
-            if (res.cookies.access_token) {
-                res.clearCookie("access_token");
-            }
+            res.clearCookie("access_token");
             const tokenId = req.body.refresh_token;
 
             const getToken = await AuthService.findToken(tokenId);
