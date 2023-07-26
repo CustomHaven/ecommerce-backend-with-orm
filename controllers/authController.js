@@ -109,6 +109,9 @@ module.exports = {
 
             loggers.info("REFRESH LOOK!!!!!!!!!!!!!!!!!!!!!!!!!");
             loggers.info(FRONTEND);
+
+            loggers.info("process.env.NODE_ENV!! LOOK");
+            loggers.info(process.env.NODE_ENV);
             loggers.info("REFRESH FINSIHED!!!!!!!!!!!!!!!!!!!!!");
 
             return res
