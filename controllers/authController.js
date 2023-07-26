@@ -115,8 +115,8 @@ module.exports = {
             loggers.info("REFRESH FINSIHED!!!!!!!!!!!!!!!!!!!!!");
 
             return res
-                .cookie("token_id", tokenId, { origin: true, httpOnly: true, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
-                .cookie("refreshed_token", token, { origin: true, httpOnly: true, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                .cookie("token_id", tokenId, { origin: true, httpOnly: true, sameSite: "Lax", /* secure: process.env.NODE_ENV === "production" ? true : false */ })
+                .cookie("refreshed_token", token, { origin: true, httpOnly: true, sameSite: "Lax", /* secure: process.env.NODE_ENV === "production" ? true : false */ })
                 .status(200).json({ user: userDone, token: getToken.token, refresh_token: tokenId });
 
             // res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
