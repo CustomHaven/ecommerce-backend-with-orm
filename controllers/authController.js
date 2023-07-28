@@ -56,11 +56,15 @@ module.exports = {
             loggers.info("LOGIN FINSIHED!!!!!!!!!!!!!!!!!!!!!");
             // __cf_bm
 
-            if (1 === 1) {
-                return res.status(200).json({
-                    user: user, access_token: token, refresh_token: refreshToken,
-                    expiration: 10
-                });
+            if (req.body.frontend) {
+                return res
+                    .cookie("token_id", refreshToken, { origin: true, httpOnly: true, maxAge: 10000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                    .cookie("access_token", token, { origin: true, httpOnly: true, maxAge: 10000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                    .status(200)
+                    .json({
+                        user: user, access_token: token, refresh_token: refreshToken,
+                        expiration: 10
+                    });
             } else {
                 return res
                 // .cookie("__cf_bm", "", { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
@@ -99,8 +103,8 @@ module.exports = {
             await AuthService.removeRefreshToken(req.cookies.token_id);
             res.clearCookie("refreshed_token");
             res.clearCookie("token_id");
-            // return res.status(200).json({ message: "Successfully logged out 😏 🍀" });
-            return res.sendStatus(204);
+            return res.status(200).json({ message: "Successfully logged out 😏 🍀" });
+            // return res.sendStatus(204);
         } catch (error) {
             next(error);
         }
@@ -149,11 +153,14 @@ module.exports = {
             loggers.info("expirationTime DONE!!!!!!!!!!!");
 
 
-            if (1 === 1) {
-                res.status(200).json({
-                    user: userDone, token: getToken.token, refresh_token: token,
-                    expiration: expirationTime
-                });
+            if (req.body.frontend) {
+                res
+                    .cookie("token_id", tokenId, { httpOnly: true, maxAge: expirationTime * 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                    .cookie("refreshed_token", token, { httpOnly: true, maxAge: expirationTime * 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
+                    .status(200).json({
+                        user: userDone, token: getToken.token, refresh_token: token,
+                        expiration: expirationTime
+                    });
             } else {
                 return res
                 // .cookie("__cf_bm", "", { origin: true, httpOnly: true, domain: ".api-custom-ecommerce-pern.onrender.com", maxAge: 1000, sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", secure: process.env.NODE_ENV === "production" ? true : false })
