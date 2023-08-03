@@ -28,6 +28,8 @@ const jwtVerify = (cookie, res, tokenType) => {
 const ensureNormalToken = (req, res, next) => {
     try {
         const bearerHeader = req.headers["authorization"];
+        console.log("bearerHEADER!", bearerHeader);
+        console.log("req.headers!!", req.headers);
         if (bearerHeader.split(" ")[1] !== "undefined") {
             const bearer = bearerHeader.split(" ");
             const token = bearer[1];

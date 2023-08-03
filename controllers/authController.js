@@ -82,7 +82,7 @@ module.exports = {
 
     logoutRoute: async (req, res, next) => {
         try {
-            loggers.info("LOGOUT!! BEGIN!!!");
+            loggers.info("NODEJS!! LOGOUT!! BEGIN!!!");
             loggers.info("req.cookies.token_id START! req.cookies.token_id START! req.cookies.token_id START!!!");
             loggers.info(req.cookies.token_id);
             loggers.info("req.cookies.token_id DONE! req.cookies.token_id DONE! req.cookies.token_id DONE!!!");
@@ -97,12 +97,24 @@ module.exports = {
             loggers.info("req.cookies.access_token END! req.cookies.access_token END! req.cookies.access_token END!!!");
 
             loggers.info("LOGOUT!! FINSH!!!");
+
+            loggers.info("checking if req.headers[\"Cookie\") is with us");
+            loggers.info(req.headers["cookie"]);
+            loggers.info("checking if req.headers[\"Cookie\") is with us AND THE VALUE WE FOUND!");
+
             if (req.cookies.access_token) {
                 res.clearCookie("access_token");
             }
-            await AuthService.removeRefreshToken(req.cookies.token_id);
-            res.clearCookie("refreshed_token");
-            res.clearCookie("token_id");
+            if (req.headers["cookie"]) {
+                await AuthService.removeRefreshToken(req.headers["cookie"]);
+            }
+            if (req.cookies.refreshed_token) {
+                res.clearCookie("refreshed_token");
+            }
+            if (req.cookies.token_id) {
+                await AuthService.removeRefreshToken(req.cookies.token_id);
+                res.clearCookie("token_id");
+            }
             return res.status(200).json({ message: "Successfully logged out 😏 🍀" });
             // return res.sendStatus(204);
         } catch (error) {
@@ -120,6 +132,7 @@ module.exports = {
 
     refreshRoute: async (req, res, next) => {
         try {
+            console.log("INSIDE THE REFRESHROUTE");
             res.clearCookie("access_token");
             const tokenId = req.body.refresh_token;
 

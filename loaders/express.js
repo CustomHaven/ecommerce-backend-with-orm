@@ -35,7 +35,7 @@ module.exports = (app, express) => {
     credentials: true, //Access-Control-Allow-Credentials: true
     optionsSuccessStatus: 200,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
-    allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Credentials", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept", "Authorization", "Login-Stage"],
+    allowedHeaders: ["Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Access-Control-Allow-Credentials", "Access-Control-Allow-Methods", "X-Requested-With", "Content-Type", "Accept", "Authorization", "Login-Stage", "Cookie"],
   };
 
   app.use(cors(corsOptions));
