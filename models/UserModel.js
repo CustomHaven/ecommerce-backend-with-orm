@@ -117,8 +117,8 @@ module.exports = (sequelize, DataTypes, literal) => {
     }
   }
 
-  const arrayModelsMany = ["Cart", "Order", "ContactDetail"];
-  const arrayModelsOnes = ["PaymentDetail", "RefreshToken"];
+  const arrayModelsMany = ["Cart", "Order"];
+  const arrayModelsOnes = ["PaymentDetail", "RefreshToken", "ContactDetail"];
 
   User.associate = models => {
     User.belongsToMany(models.Role, {

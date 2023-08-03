@@ -25,6 +25,34 @@ const jwtVerify = (cookie, res, tokenType) => {
     return res;
 }
 
+const ensureNormalToken = (req, res, next) => {
+    try {
+        const bearerHeader = req.headers["authorization"];
+        if (bearerHeader.split(" ")[1] !== "undefined") {
+            const bearer = bearerHeader.split(" ");
+            const token = bearer[1];
+            req.token = token;
+
+            console.log('req.headers["Login-Stage"]', req.headers["login-stage"]);
+
+            if (req.headers["login-stage"] === "refresh") {
+                // jwtVerify(tokenRefresh, res, "refresh");
+                console.log("refresh side TOKEN", req.token);
+                jwtVerify(req.token, res, "refresh");
+            } else {
+                // jwtVerify(tokenAccess, res, "access");
+                console.log("access side TOKEN", req.token);
+                jwtVerify(req.token, res, "access");
+            }
+            next();
+        } else {
+            throw createError(403, "Forbidden");
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 const cookieJwtAuth = (req, res, next) => {
     try {
         // console.log("refresh_token??", req.cookies.refreshed_token);
@@ -53,7 +81,41 @@ const cookieJwtAuth = (req, res, next) => {
     }
 };
 
+const ensureAdminToken = (req, res, next) => {
+    try {
+        const bearerHeader = req.headers["authorization"];
+        if (bearerHeader.split(" ")[1] !== "undefined") {
+            const bearer = bearerHeader.split(" ");
+            const token = bearer[1];
+            req.token = token;
+
+            jwtVerify(req.token, res, "refresh");
+
+            if (res.locals.userRole === "Administrator") {
+                return next();
+            }
+            throw createError(401, "Unauthorized");
+        } else {
+            console.log("req.header was undefined");
+            console.log(typeof bearerHeader);
+            throw createError(401, "Unauthorized");
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 const isAdmin = (req, res, next) => {
+    console.log("THE ADMIN!?");
+    console.log(req);
+    console.log("REQ?W");
+
+    console.log("LOOK AT COOKIES!");
+    console.log(req.cookies);
+    console.log("OEKKKKKKKKKK");
+    console.log("look at headers");
+    console.log(req.headers);
+    console.log("look at headers DONE!");
 
     // console.log("isADMIN!");
     // const tokenAccess = req.cookies.access_token ? req.cookies.access_token : null;
@@ -87,5 +149,7 @@ const accessGranted = (req, res, next) => {
 module.exports = {
     cookieJwtAuth,
     isAdmin,
-    jwtVerify
+    jwtVerify,
+    ensureAdminToken, // using these on cross-site where credential: "include" is not working
+    ensureNormalToken // using these on cross-site where credential: "include" is not working
 }

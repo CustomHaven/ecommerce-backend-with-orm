@@ -4,6 +4,9 @@ const orderService = new OrderService();
 
 exports.findAllOrders = async (req, res, next) => {
     try {
+        console.log("WAG1?");
+        console.log(req.cookie);
+        console.log("REQ!")
         const allOrders = await orderService.findAllOrders();
         res.status(200).send(allOrders);
     } catch (error) {

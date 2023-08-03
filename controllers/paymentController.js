@@ -56,9 +56,14 @@ exports.removePaymentDetail = async (req, res, next) => {
 exports.masterPay = async (req, res, next) => {
     try {
         const { name_on_card, card_type, card_number, expiry_date, cvv, amount } = req.body;
+        console.log("WE HAVE REACHED THE MASTER PAY!");
+
+        console.log("res.locals", res.locals);
 
         const user = await PaymentService.findUserContactDetails(req.params.user_id, res.locals.userIdRole);
+        console.log("user checked", user);
         const userName = user.ContactDetail.first_name + " " + user.ContactDetail.last_name;
+        console.log("userName checked", userName);
 
         // creating customer in stripe
         const customer = await stripe.customers.create({

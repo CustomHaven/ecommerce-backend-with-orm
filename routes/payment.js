@@ -1,15 +1,15 @@
 const paymentController = require('../controllers/paymentController');
 const router = require('express').Router();
-const { cookieJwtAuth, isAdmin } = require("../middleware/cookieJWTAuth");
+const { cookieJwtAuth, isAdmin, ensureAdminToken, ensureNormalToken } = require("../middleware/cookieJWTAuth");
 
 module.exports = (app) => {
     app.use("/api/v2/payment-details", router);
 
-    router.get("/", isAdmin, paymentController.findAllPayments);
-    router.get("/publish-key", cookieJwtAuth, paymentController.publishKey);
-    router.post("/:user_id", cookieJwtAuth, paymentController.masterPay); // sameUserCheck // done
+    router.get("/", ensureAdminToken, paymentController.findAllPayments);
+    router.get("/publish-key", ensureNormalToken, paymentController.publishKey);
+    router.post("/:user_id", ensureNormalToken, paymentController.masterPay); // sameUserCheck // done
     router.post("/accept_payment", paymentController.acceptPayment); // query ?
-    router.get("/:id", cookieJwtAuth, paymentController.findAPayment); // sameUserCheck // done
-    router.put("/:id", cookieJwtAuth, paymentController.updateAPayment); // sameUserCheck // done
-    router.delete("/:id", cookieJwtAuth, paymentController.removePaymentDetail); // sameUserCheck // done
+    router.get("/:id", ensureNormalToken, paymentController.findAPayment); // sameUserCheck // done
+    router.put("/:id", ensureNormalToken, paymentController.updateAPayment); // sameUserCheck // done
+    router.delete("/:id", ensureNormalToken, paymentController.removePaymentDetail); // sameUserCheck // done
 }

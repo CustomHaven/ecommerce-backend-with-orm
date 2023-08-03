@@ -25,7 +25,7 @@ module.exports = async (app, express) => {
     loggers.info("MESSAGE ERROR CHECK onn loggers.error!!!!!");
     loggers.error(message)
     loggers.info("err OF the START CHECKING ERROR CHECK onn loggers.info!!!!!!");
-    loggers.info(err);
+    // loggers.info(err);
     loggers.info("ALL ERRORS FULLY CHECKED!!!!!!!");
     return res.status(status === undefined ? 500 : status).send({ message });
   });

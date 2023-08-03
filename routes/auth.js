@@ -1,5 +1,5 @@
 const authController = require('../controllers/authController');
-const { cookieJwtAuth } = require("../middleware/cookieJWTAuth");
+const { cookieJwtAuth, ensureNormalToken } = require("../middleware/cookieJWTAuth");
 const validInfo = require("../middleware/validInfo.js");
 const router = require('express').Router();
 
@@ -10,7 +10,7 @@ module.exports = (app) => {
     router.post("/users", authController.practise);
 
     router.post("/login", validInfo, authController.loginRoute);
-    router.get("/logout", cookieJwtAuth, authController.logoutRoute);
-    router.get("/protected", cookieJwtAuth, authController.protectedRoute); // make swagger for this
+    router.get("/logout", ensureNormalToken, authController.logoutRoute);
+    router.get("/protected", ensureNormalToken, authController.protectedRoute); // make swagger for this
     router.post("/refresh", authController.refreshRoute);
 }//
