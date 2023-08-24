@@ -130,6 +130,7 @@ exports.addAdmin = async (req, res, next) => {
 
 exports.findAllUsersOrders = async (req, res, next) => {
     try {
+        console.log("we are here")
         const allUserOrders = await userService.findEveryUsersOrders();
 
         res.status(200).send(allUserOrders);

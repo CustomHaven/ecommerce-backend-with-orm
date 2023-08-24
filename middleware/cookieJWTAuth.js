@@ -86,6 +86,7 @@ const cookieJwtAuth = (req, res, next) => {
 const ensureAdminToken = (req, res, next) => {
     try {
         const bearerHeader = req.headers["authorization"];
+        console.log("bearerHeader?", bearerHeader);
         if (bearerHeader.split(" ")[1] !== "undefined") {
             const bearer = bearerHeader.split(" ");
             const token = bearer[1];

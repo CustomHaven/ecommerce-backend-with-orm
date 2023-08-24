@@ -56,14 +56,57 @@ module.exports = class ProductService {
         }
     }
 
-    async updateProduct(id, body) {
+    async updateProduct(id, body, add) {
         try {
-        const product = await Product.findByPk(id);
-        if (!product) {
-            throw createError(404, "No product found");
+        
+            const product = await Product.findByPk(id);
+            if (!product) {
+                throw createError(404, "No product found");
+            }
+            let newQuantity;
+
+            if (body.hasOwnProperty("quantity") && body.hasOwnProperty("newQuantity")) {
+                throw createError(400, "Cannot Determine whether to update an existing quantity or replace the quantity with a new value");
+            }
+
+
+            if (body.hasOwnProperty("newQuantity")) {
+                body.quantity = body.newQuantity;
+            } else {
+                if (product.quantity) {
+                    if (!body.hasOwnProperty("add")) {
+                        throw createError(400, "Missing add key property to determine whether to add or subtract quantity");
+                    }
+                    if (add) {
+                        newQuantity = product.quantity + body.quantity;
+                        body.quantity = newQuantity;
+                    } else {
+                        newQuantity = product.quantity - body.quantity;
+                        body.quantity = newQuantity;
+                    }
+                }
+            }
+
+            if (body.hasOwnProperty("newQuantity")) {
+                delete body.newQuantity;
+            }
+
+            if (body.hasOwnProperty("add")) {
+                delete body.add;
+            }
+            const updatedProduct = await product.update(body);
+            return updatedProduct;
+        } catch (error) {
+            throw error;
         }
-        const updatedProduct = await product.update(body);
-        return updatedProduct;
+    }
+
+    async updateProductQuantity(id, quantity) {
+        try {
+            const product = await Product.findByPk(id);
+            if (!product) throw createError(404, "No product found");
+            const newQuantity = product.quantity - quantity;
+            return await product.update({ quantity: newQuantity });
         } catch (error) {
             throw error;
         }

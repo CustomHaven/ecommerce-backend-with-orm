@@ -45,7 +45,16 @@ exports.newProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
     try {
-        const product = await productService.updateProduct(req.params.id, req.body);
+        const product = await productService.updateProduct(req.params.id, req.body, req.body.add);
+        res.status(201).send(product);
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.updateProductQuantity = async (req, res, next) => {
+    try {
+        const product = await productService.updateProductQuantity(req.params.id, req.body.quantity);
         res.status(201).send(product);
     } catch (error) {
         next(error)

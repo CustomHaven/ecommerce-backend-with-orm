@@ -929,6 +929,13 @@ paths:
                 success:
                   value: '{ "id": "prod 3", "source": "http://google.com/updated/the/url/of/this/product/vitae.jsp?orci=sollicitudin", "product_name": "Rice and Chicken", "type": "Exotic Food", "description": "Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.", "price": "$2.14", "quantity": 33, "created": "25/08/2021", "modified": "28/07/2022" }'
           description: Success
+        '400':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Bad Request"}'
+          description: Fail
         '401':
           content:
             application/json:
@@ -1230,6 +1237,61 @@ paths:
               examples:
                 fail:
                   value: '{"message": "No product found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Products
+  /api/v2/products/update-quantity/{id}:
+    summary: Update a products quantity
+    description: Special route to update a products quantity
+    put:
+      summary: Update a product quantity
+      description: fetches a product then updates the quantity
+      operationId: update_single_product_quantity
+      parameters:
+        - name: id
+          in: path
+          description: The id of the product
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update the product
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Products'
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "prod 3", "source": "http://google.com/updated/the/url/of/this/product/vitae.jsp?orci=sollicitudin", "product_name": "Rice and Chicken", "type": "Exotic Food", "description": "Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.", "price": "$2.14", "quantity": 33, "created": "25/08/2021", "modified": "28/07/2022" }'
+          description: Success
+        '400':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Bad Request"}'
+          description: Fail
+        '401':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Unathorized"}'
           description: Fail
         '500':
           content:

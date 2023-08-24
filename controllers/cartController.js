@@ -39,14 +39,14 @@ exports.findACart = async (req, res, next) => {
 
 exports.updateAbandonedCart = async (req, res, next) => {
     try {
-        if (!req.body.abandonded || !/^true$|^false$/i.test(req.body.abandonded)) {
+        if (!req.body.hasOwnProperty("abandoned")) {
             const exception = new Error();
             exception.status = 400;
             exception.message = "Missing or invalid parameter values detected";
             throw exception;
         }
-        const abandonded = req.body.abandonded.toUpperCase();
-        const cart = await cartService.abandonedCart(Number(req.params.id), abandonded);
+        console.log("we have passed the error bit", req.body.abandoned);
+        const cart = await cartService.abandonedCart(Number(req.params.id), req.body.abandoned);
         res.status(201).send(cart);
     } catch (error) {
         next(error);

@@ -9,6 +9,8 @@ module.exports = (app) => {
     router.get('/', productController.findAll);
     router.post("/", ensureAdminToken, productController.newProduct);
 
+    router.put("/update-quantity/:id", productController.updateProductQuantity);
+
     router.get("/all-products-with-all-images", productController.findAllProductsWithAllImages); // Swagger!
     router.get("/single-product-and-all-images/:id", productController.findSingleProductWithAllImages); // Swagger!
     router.post("/add-product-and-images-together", ensureAdminToken, productController.newProductWithAllImages); // Swagger!

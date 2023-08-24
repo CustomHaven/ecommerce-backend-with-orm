@@ -108,18 +108,12 @@ module.exports = class CartService {
         }
     }
 
-    async abandonedCart(id, update) { // need swagger docs
+    async abandonedCart(id, abandoned) { // need swagger docs
         try {
             // console.log("ID!", id);
             // console.log("update!", update);
             const cart = await this.findCart(id);
-
-            let abandoned;
-            if (update === "TRUE") {
-                abandoned = true;
-            } else {
-                abandoned = false;
-            }
+            if (!cart) throw createError(404, "Cart not found");
 
             return await cart.update({ abandoned: abandoned }); // maybe DONT send anything in and put directly false instead?
         } catch (error) {

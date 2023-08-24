@@ -325,6 +325,8 @@ module.exports = class UserService {
         raw: true
       });
 
+      // console.log("userOrders", userOrders);
+
       const users = await User.findAll({
         attributes: ["id"],
         include: {
@@ -332,7 +334,7 @@ module.exports = class UserService {
           attributes: ["first_name", "last_name"]
         }
       });
-
+      console.log("users", users);
       const usersOrderPerson = userOrders.map((user, i) => {
         const userObject = users.find(u => {
           if (u.id === user.id) {
@@ -342,9 +344,11 @@ module.exports = class UserService {
 
         return {
           ...user,
-          names: userObject.ContactDetails[0] ? userObject.ContactDetails[0] : null
+          names: userObject.ContactDetail ? userObject.ContactDetail : null
         }
       });
+
+      console.log("usersOrderPerson", usersOrderPerson);
 
       if (userOrders) {
         // return usersOrderPerson;
