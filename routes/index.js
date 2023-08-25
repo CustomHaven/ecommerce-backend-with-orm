@@ -9,6 +9,7 @@ const cartListRouter = require("./cartList");
 const orderRouter = require("./orders");
 const orderListRouter = require("./orderList");
 const paymentRouter = require("./payment");
+const legalRouter = require("./legals");
 // const bgRemoverRouter = require("./bgRemover");
 
 module.exports = (app) => {
@@ -23,6 +24,7 @@ module.exports = (app) => {
   orderRouter(app);
   orderListRouter(app);
   paymentRouter(app);
+  legalRouter(app);
   // bgRemoverRouter(app);
 
   return app

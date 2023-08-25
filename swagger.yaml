@@ -149,6 +149,40 @@ paths:
           description: Fail
       tags:
         - Refresh Token
+  /api/v2/legalities:
+    summary: Legal Statements
+    description: All the legal statements like terms & conditions, privacy policy, delivery info and about us data.
+    get:
+      summary: Important Legal Statements
+      description: Covers all legal statements of who we are as a company like the terms & conditions, privacy policy, delivery info and about us.
+      operationId: legals_fetch
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "id": "1", "about_us": "Who we are", "terms_and_conditions": "Our terms", "privacy_policy": "100% secure data protection", "delivery_information": "How long we deliver" }'
+          description: Success
+        '404':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: '{"message": "Not found"}'
+          description: Fail
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Legals
   /api/v2/users/register/guest:
     summary: Register guest
     description: Register a new guest account
