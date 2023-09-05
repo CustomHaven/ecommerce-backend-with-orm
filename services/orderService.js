@@ -117,7 +117,15 @@ module.exports = class OrderService {
                 attributes: { exclude: ["created_at", "updated_at"] },
                 include: {
                     model: OrderList,
-                    attributes: { exclude: ["created_at", "updated_at"] }
+                    attributes: { exclude: ["created_at", "updated_at"] },
+                    include: {
+                        model: Product,
+                        attributes: { exclude: ["created_at", "updated_at"] },
+                        include: {
+                            model: ProductBannerImage,
+                            attributes: { exclude: ["created_at", "updated_at"] }
+                        }
+                    }
                 }
             });
             sameUserCheck(userIdRole, order.user_id);

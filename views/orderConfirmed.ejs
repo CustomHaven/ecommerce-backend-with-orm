@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/public/assets/styles.css" type="text/css" /> -->
+    <title>Custom Haven Order Confirmed</title>
+    <style>
+        body{
+    font-family: arial;
+    margin: 0;
+}
+nav{
+    background: #ff5353;
+    padding: 20px 10px;
+}
+nav ul {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0;
+}
+nav li {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+nav a {
+    color: #fff;
+    font-size: 18px;
+    background: rgba(255,255,255,0.2);
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+main, header {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 10px;
+    color: #333;
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href=<%= frontend %>>Homepage</a></li>
+        </ul>
+    </nav>
+    <header>
+        <h1>Order Confirmed!</h1>
+        <h3>Thank you <%= person %> for your order!</h3>
+    </header>
+
+    <main>
+        <p>Subject Order #<%= orderId %> confirmed</p>
+        <div>
+            <div>
+                <div id="logo">
+                    <!-- <img src="cid:myImg" alt="My Logo" width="200px" height="100px"> -->
+                    <img src="/images/customLogo.png" alt="Custom Haven Logo" width="200px" height="100px">
+                </div>
+                <div>
+                    <table>
+                        <thead>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </thead>
+                        <tbody>
+                            <% orderList.forEach((list, index) => { %>
+                                <tr>
+                                    <td><%= list.Product.product_name %></td>
+                                    <td><%= "$" + parseFloat(list.Product.price).toFixed(2) %></td>
+                                    <td><%= list.quantity %></td>
+                                    <td><%= "$" + parseFloat(list.price).toFixed(2) %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>                            
+                    </table>
+                    <p><strong>Total Sum: <%= "$" + parseFloat(order.final_price).toFixed(2) %></strong></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        console.log("Hello from the script tag!");
+    </script>
+    <!-- <script src="/js/index.js" type="text/javascript"></script> -->
+    <!-- <script src="cid:myJS" type="text/javascript"></script> -->
+
+</body>
+</html>

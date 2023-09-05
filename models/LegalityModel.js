@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes, literal) => {
             type: DataTypes.INTEGER,
             primaryKey: true
         },
-        term_and_conditions: { // change the name to role_name for simplicity
+        terms_and_conditions: { // change the name to role_name for simplicity
             type: DataTypes.TEXT,
             allowNull: false
         },

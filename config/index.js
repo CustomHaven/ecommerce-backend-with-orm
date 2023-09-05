@@ -26,5 +26,12 @@ module.exports = {
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_API_SECRET,
     secure: true
-  })
+  }),
+  EMAIL: {
+    EHOST: process.env.MAIL_HOST,
+    ESERVICE: process.env.MAIL_SERVICE,
+    EUSER: process.env.MAIL_USER,
+    EPASSWORD: process.env.MAIL_PASSWORD,
+    EFROM: process.env.MAIL_FROM
+  },
 }

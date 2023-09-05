@@ -183,6 +183,74 @@ paths:
           description: Fail
       tags:
         - Legals
+  /api/v2/email/contact_us:
+    summary: Contact Us
+    description: Customer made an enquiry about the store.
+    post:
+      summary: Contact us at Haven
+      description: Customer made general enquiry about the store.
+      operationId: contact_us
+      requestBody:
+        description: Customer's enquiry details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email-Contact-Us'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "success": "Success" }'
+          description: Success
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Email
+  /api/v2/email/order_confirmed:
+    summary: Order Confirmation
+    description: Order Confirmation Email.
+    post:
+      summary: Order confirmation email
+      description: Email the customer to show them their order was confirmed.
+      operationId: order_confirmation_email
+      requestBody:
+        description: Order confirmation email
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order-Confirmed-Email'
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "success": "Success" }'
+          description: Success
+        '500':
+          content:
+            application/json:
+              examples:
+                fail:
+                  value: |-
+                    {
+                      "message": "Invalid Server Error"
+                    }
+          description: Fail
+      tags:
+        - Email
   /api/v2/users/register/guest:
     summary: Register guest
     description: Register a new guest account
@@ -3393,6 +3461,36 @@ components:
           type: string
       xml:
         name: Contact-Details
+    Email-Contact-Us:
+      type: object
+      properties:
+        user_name:
+          type: string
+        user_email:
+          type: string
+        message:
+          type: string
+      xml:
+        name: Email-Contact-Us
+    Order-Confirmed-Email:
+      type: object
+      properties:
+        id:
+          type: string
+        OrderLists:
+          type: array
+        person:
+          type: string
+        final_price:
+          type: string
+        shipping_price:
+          type: string
+        shipping_method:
+          type: string
+        shipping_status:
+          type: string
+      xml:
+        name: Order-Confirmed-Email
     Products:
       type: object
       properties:
