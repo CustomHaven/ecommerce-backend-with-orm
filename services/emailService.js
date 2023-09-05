@@ -19,8 +19,6 @@ module.exports = class EmailService {
         try {
             const message = mail;
             message.from = EMAIL.EFROM.replace(/ADMIN/, "no-reply");
-            // message.from = '"ADMIN" <mmuseaden@gmail.com>';
-
 
             return await this.transporter.sendMail(message)
                 .then((info) => {

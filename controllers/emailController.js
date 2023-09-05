@@ -1,6 +1,7 @@
 const EmailService = require("../services/emailService");
 const EmailServiceInstance = new EmailService();
 const path = require("path");
+const fs = require("fs");
 const ejs = require("ejs");
 
 
@@ -43,9 +44,14 @@ exports.contactUs = async (req, res, next) => {
 
 exports.orderConfirmed = async (req, res, next) => {
     try {
-        console.log("we are in order confirm", req.body);
-        // make this route a HTML! 1 for the orders recieved render EJS FILE TEMPLATE?!
+
+        const imgLocal = fs.promises.readFile(path.join(__dirname + "../../public/images/customLogo.png"));
         const pathString = path.join(__dirname, "../views/orderConfirmed.ejs");
+
+        const imgBuffer = await Promise.resolve(imgLocal).then(function(buffer) {
+            return buffer;
+        });
+
         await ejs.renderFile(pathString, { 
             order: req.body, 
             orderId: req.body.id, 
@@ -60,12 +66,15 @@ exports.orderConfirmed = async (req, res, next) => {
                     to: "havendepot@gmail.com",
                     subject: "Order Confirmed",
                     html: data,
+                    attachments: [
+                        {
+                            content: imgBuffer,
+                            contentType: "image/png",
+                            contentDisposition: "inline",
+                            cid: "myImg"
+                        },
+                    ]
                     // attachments: [
-                    //     // {
-                    //     //     filename: "index.js",
-                    //     //     path: __dirname + "../../public/js/index.js",
-                    //     //     cid: "myJS"
-                    //     // },
                     //     {
                     //         filename: "customLogo.png",
                     //         path: __dirname + "../../public/images/customLogo.png",
@@ -73,7 +82,6 @@ exports.orderConfirmed = async (req, res, next) => {
                     //     }
                     // ]
                 };
-                // console.log("html data ======================>", message.html);
                 await EmailServiceInstance.sendMessage(message);
             }
         });
