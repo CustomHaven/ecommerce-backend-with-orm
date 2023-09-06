@@ -5,7 +5,7 @@ const { EMAIL } = require("../config");;
 module.exports = class EmailService {
     constructor() {
         this.transporter = nodemailer.createTransport({
-            service: "hotmail",
+            service: EMAIL.ESERVICE,
             // host: EMAIL.EHOST,
             auth: {
                 user: EMAIL.EUSER,
@@ -14,11 +14,11 @@ module.exports = class EmailService {
         })
     }
 
-    async sendMessage(mail) {
+    async sendMessage(mail, messageType) {
 
         try {
             const message = mail;
-            message.from = EMAIL.EFROM.replace(/ADMIN/, "no-reply");
+            message.from = EMAIL.EFROM.replace(/ADMIN/, messageType);
 
             return await this.transporter.sendMail(message)
                 .then((info) => {
@@ -36,5 +36,4 @@ module.exports = class EmailService {
 
     }
 
-    // Make another method for HTML 1 the orders the customer makes!
 };
