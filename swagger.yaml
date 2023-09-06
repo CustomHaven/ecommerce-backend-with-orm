@@ -205,6 +205,13 @@ paths:
                 success:
                   value: '{ "success": "Success" }'
           description: Success
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "success": "Success" }'
+          description: Created
         '500':
           content:
             application/json:
@@ -239,6 +246,13 @@ paths:
                 success:
                   value: '{ "success": "Success" }'
           description: Success
+        '201':
+          content:
+            application/json:
+              examples:
+                success:
+                  value: '{ "success": "Success" }'
+          description: Created
         '500':
           content:
             application/json:

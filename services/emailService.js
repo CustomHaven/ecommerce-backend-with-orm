@@ -19,21 +19,18 @@ module.exports = class EmailService {
         try {
             const message = mail;
             message.from = EMAIL.EFROM.replace(/ADMIN/, messageType);
-
             return await this.transporter.sendMail(message)
                 .then((info) => {
                     console.log("info inside then!", info);
                     return { success: "Success" };
                 })
                 .catch(err => {
-                    console.log(err); 
-                    throw createError(500, err.message.replace(EMAIL.EUSER, "theSecretAdminEmail"));
+                    const msg = err.message.replace(EMAIL.EUSER, "theSecretAdminEmail");
+                    throw createError(500, msg);
                 });
 
         } catch (error) {
             throw error;
         }
-
     }
-
 };

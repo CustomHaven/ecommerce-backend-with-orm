@@ -37,7 +37,7 @@ exports.contactUs = async (req, res, next) => {
             }));
         };
         const email = await EmailServiceInstance.sendMessage(message, "no-reply");
-        res.status(200).send(email);
+        res.status(201).send(email);
     } catch (error) {
         next(error);
     }
@@ -55,7 +55,6 @@ exports.orderConfirmed = async (req, res, next) => {
             const buff = Buffer.from(order.Product.ProductBannerImage.banner_image_data, "base64");
 
             const bannerImgUrl = buff.toString("utf-8");
-            console.log("bannerImgUrl", bannerImgUrl);
 
             const response = await axios.get(bannerImgUrl, { responseType: 'arraybuffer' });
             const imageBuffer = Buffer.from(response.data, 'binary');
@@ -76,13 +75,7 @@ exports.orderConfirmed = async (req, res, next) => {
             cid: "customHavenLogo"
         });
 
-        console.log("attachments", attachments);
-
         const pathString = path.join(__dirname, "../views/orderConfirmed.ejs");
-
-        console.log("before we start ejs!");
-
-        let emailSent;
 
         await ejs.renderFile(pathString, { 
             order: req.body, 
@@ -92,24 +85,23 @@ exports.orderConfirmed = async (req, res, next) => {
             frontend: process.env.FRONTEND_HOST,
             bufferImages: attachments
         }, async (err, data) => {
-            if (err) {
-                console.log(err);
-                throw createError(500, "something went wrong", err);
-            } else {
-                console.log("inside the ejs renderFile");
+
                 const message = {
                     to: req.body.user_email,
                     subject: "Order Confirmed",
                     html: data,
                     attachments: attachments
                 };
-                emailSent = await EmailServiceInstance.sendMessage(message, "Thanks for your order!");
-            }
+                try {
+                    const emailSent = await EmailServiceInstance.sendMessage(message, "Thanks for your order!");
+                    return res.status(201).send(emailSent);
+                } catch (error) {
+                    next(error);
+                }
         });
         
 
-        console.log("the end!");
-        res.status(201).send(emailSent);
+        // res.status(201).send(emailSent);
         // res.render("orderConfirmed", {
         //     order: obj, 
         //     orderId: obj.id, 
